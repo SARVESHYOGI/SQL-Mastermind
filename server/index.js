@@ -5,8 +5,7 @@ const authRoutes = require("./routes/authRoutes");
 const planRoutes = require("./routes/planRoutes");
 const errorHandler = require("./middleware/errorHandler");
 const connectDB = require("./db/connectDB");
-// const dotenv = require("dotenv");
-// dotenv.config()
+
 
 dotenv.config();
 const app = express();

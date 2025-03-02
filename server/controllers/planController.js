@@ -1,33 +1,49 @@
-const { OpenAI } = require("openai");
+const fetch = require("node-fetch");
 const Plan = require("../models/Plan");
-const dotenv = require("dotenv");
-dotenv.config();
-
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
 
 const generatePlan = async (req, res) => {
-    const { experience, companies, time } = req.body;
-    const prompt = `Generate a SQL preparation plan for a user with:
+    const { experience, role, jobTitle, companies, sqlProficiency, dbSystem, focusArea, skillLevel, topics, queryComplexity, industry } = req.body;
+    const prompt = `Generate a SQL preparation plan for a user with the following details:
   - Experience: ${experience} years
+  - Role: ${role}
+  - Target Job Title: ${jobTitle}
   - Target Companies: ${companies}
-  - Time Commitment: ${time} hours per day
-  Include at least 25 questions with details like title, company, and difficulty level.`;
+  - Current SQL Proficiency: ${sqlProficiency}
+  - Preferred SQL Database: ${dbSystem}
+  - Focus Area: ${focusArea}
+  - Target SQL Skill Level: ${skillLevel}
+  - Focus Topics in SQL: ${topics}
+  - SQL Query Complexity: ${queryComplexity}
+  - Target Industry: ${industry}`;
 
-    const response = await openai.completions.create({
-        model: "gpt-3.5-turbo",
-        prompt,
-        max_tokens: 500,
-    });
+    try {
+        const response = await fetch("https://api-inference.huggingface.co/models/gpt2", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${process.env.HUGGING_FACE_API_KEY}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ inputs: prompt }),
+        });
 
-    const plan = new Plan({
-        userId: req.userId,
-        questions: response.choices[0].text.split("\n"),
-    });
-    await plan.save();
+        if (!response.ok) {
+            throw new Error(`Hugging Face API Error: ${response.statusText}`);
+        }
 
-    res.json({ plan: response.choices[0].text });
+        const data = await response.json();
+        const generatedText = data[0]?.generated_text || "No response generated.";
+
+        const plan = new Plan({
+            userId: req.userId,
+            questions: generatedText.split("\n"),
+        });
+        await plan.save();
+
+        res.json({ plan: generatedText });
+    } catch (error) {
+        console.error("Hugging Face API Error:", error);
+        res.status(500).json({ error: "Failed to generate plan" });
+    }
 };
 
 module.exports = { generatePlan };
