@@ -1,24 +1,28 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import connectDB from './db/connectDB.js';
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const authRoutes = require("./routes/authRoutes");
+const planRoutes = require("./routes/planRoutes");
+const errorHandler = require("./middleware/errorHandler");
+const connectDB = require("./db/connectDB");
+// const dotenv = require("dotenv");
+// dotenv.config()
 
-
-
-
+dotenv.config();
 const app = express();
-app.use(bodyParser.json());
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-
-dotenv.config();
-app.get('/', (req, res) => {
-    res.send('Hello World');
-});
+// MongoDB Connection
 connectDB();
+// Routes
+app.use("/auth", authRoutes);
+app.use("/plan", planRoutes);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`);
-});
+// Error Handling Middleware
+app.use(errorHandler);
+
+// Start Server
+app.listen(process.env.PORT, () => console.log(`Server is running on port ${process.env.PORT}`));
