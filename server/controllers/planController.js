@@ -149,6 +149,11 @@ const generatePlan = async (req, res) => {
     - A difficulty level.
     - Time commitment.
     - Links to resources (optional).
+
+    Please structure the response strictly in valid JSON format. 
+Ensure proper JSON syntax, including correct key-value pairs and appropriate use of quotes.
+Do not include extra words like "json starts" or "json ends". 
+
     
     `;
 
@@ -166,21 +171,40 @@ const generatePlan = async (req, res) => {
         }
 
         const generatedText = await result.response.text();
-
-        // Optional: If you need to save the generated plan to the database
-        // const plan = new Plan({
-        //     userId: req.userId,
-        //     questions: generatedText.split("\n"),  // Assuming each line is a question or step
-        // });
-        // await plan.save();
-
-        // Respond with the generated plan
-        // res.json({ plan: generatedText });
-        res.send(generatedText);
+        const cleanedText = generatedText.replace(/```json\n|\n```/g, '');
+        const jsonData = JSON.parse(cleanedText);
+        res.json(jsonData);
     } catch (error) {
         console.error("Error generating plan:", error);
         res.status(500).json({ error: "Failed to generate plan" });
     }
 };
+
+const savePlan = async (req, res) => {
+    const { experience, role, jobTitle, companies, sqlProficiency, dbSystem, focusArea, skillLevel, topics, queryComplexity, industry, plan } = req.body;
+
+    try {
+        const newPlan = new Plan({
+            experience,
+            role,
+            jobTitle,
+            companies,
+            sqlProficiency,
+            dbSystem,
+            focusArea,
+            skillLevel,
+            topics,
+            queryComplexity,
+            industry,
+            plan
+        });
+
+        const savedPlan = await newPlan.save();
+        res.json(savedPlan);
+    } catch (error) {
+        console.error("Error saving plan:", error);
+        res.status(500).json({ error: "Failed to save plan" });
+    }
+}
 
 module.exports = { generatePlan };
