@@ -1,7 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 
 function Home() {
+    const navigate = useNavigate();
+    const token = localStorage.getItem('token');
+
+    const handleclick = () => {
+        if (!token) {
+            navigate('/auth/login');
+        } else {
+            navigate('/dashboard');
+        }
+    }
     return (
         <div>
 
@@ -14,9 +24,7 @@ function Home() {
                         <p class="text-stone-100 text-base">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                         </p>
-                        <Link to="/auth/login">
-                            <button class="mt-8 mr-4 text-white uppercase py-4 text-base font-light px-10 border border-white hover:bg-white hover:bg-opacity-10">Get started</button>
-                        </Link>
+                        <button onClick={handleclick} class="mt-8 mr-4 text-white uppercase py-4 text-base font-light px-10 border border-white hover:bg-white hover:bg-opacity-10">Get started</button>
 
                         <button class="mt-8 text-white uppercase py-4 text-base font-light px-10 border border-white hover:bg-white hover:bg-opacity-10">Get started</button>
                     </div>

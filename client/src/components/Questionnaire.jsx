@@ -12,10 +12,10 @@ const Questionnaire = () => {
         formState: { errors },
     } = useForm();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const onSubmit = async (data) => {
         console.log(data);
-        const dispatch = useDispatch();
         try {
             const token = localStorage.getItem("token");
             if (!token) {
