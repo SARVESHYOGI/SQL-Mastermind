@@ -1,9 +1,46 @@
 const mongoose = require("mongoose");
 
+const weekSchema = new mongoose.Schema({
+    topicsCovered: [String],
+    exercises: [String],
+    difficultyLevel: String,
+    timeCommitment: String,
+    resources: [String]
+}, { _id: false });
+
 const planSchema = new mongoose.Schema({
-    userId: mongoose.Schema.Types.ObjectId,
-    questions: Array,
-    timestamp: { type: Date, default: Date.now },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    experience: String,
+    role: String,
+    targetJobTitle: String,
+    targetCompanies: [String],
+    currentSQLProficiency: String,
+    preferredSQLDatabase: [String],
+    focusArea: String,
+    targetSQLSkillLevel: String,
+    focusTopics: [String],
+    sqlQueryComplexity: String,
+    industry: String,
+    "4WeekPlan": {
+        week1: weekSchema,
+        week2: weekSchema,
+        week3: weekSchema,
+        week4: weekSchema
+    },
+    "8WeekPlan": {
+        week1: weekSchema,
+        week2: weekSchema,
+        week3: weekSchema,
+        week4: weekSchema,
+        week5: weekSchema,
+        week6: weekSchema,
+        week7: weekSchema,
+        week8: weekSchema
+    }
 });
 
 module.exports = mongoose.model("Plan", planSchema);

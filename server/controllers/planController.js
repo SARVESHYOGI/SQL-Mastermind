@@ -2,9 +2,9 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const Plan = require("../models/Plan");
 
 const generatePlan = async (req, res) => {
-    const { experience, role, jobTitle, companies, sqlProficiency, dbSystem, focusArea, skillLevel, topics, queryComplexity, industry } = req.body;
+  const { experience, role, jobTitle, companies, sqlProficiency, dbSystem, focusArea, skillLevel, topics, queryComplexity, industry } = req.body;
 
-    const prompt = `
+  const prompt = `
     Generate a SQL preparation plan for a user with the following details:
       - Experience: ${experience} years
       - Role: ${role}
@@ -157,54 +157,70 @@ Do not include extra words like "json starts" or "json ends".
     
     `;
 
-    try {
-        // Initialize GoogleGenerativeAI with the API key
-        const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  try {
+    // Initialize GoogleGenerativeAI with the API key
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        // Generate content using the provided prompt
-        const result = await model.generateContent(prompt);
+    // Generate content using the provided prompt
+    const result = await model.generateContent(prompt);
 
-        // Check if result is properly returned and extract text
-        if (!result || !result.response || !result.response.text) {
-            throw new Error("No valid response from Google API.");
-        }
-
-        const generatedText = await result.response.text();
-        const cleanedText = generatedText.replace(/```json\n|\n```/g, '');
-        const jsonData = JSON.parse(cleanedText);
-        res.json(jsonData);
-    } catch (error) {
-        console.error("Error generating plan:", error);
-        res.status(500).json({ error: "Failed to generate plan" });
+    // Check if result is properly returned and extract text
+    if (!result || !result.response || !result.response.text) {
+      throw new Error("No valid response from Google API.");
     }
+
+    const generatedText = await result.response.text();
+    const cleanedText = generatedText.replace(/```json\n|\n```/g, '');
+    const jsonData = JSON.parse(cleanedText);
+    res.json(jsonData);
+  } catch (error) {
+    console.error("Error generating plan:", error);
+    res.status(500).json({ error: "Failed to generate plan" });
+  }
 };
 
 const savePlan = async (req, res) => {
-    const { experience, role, jobTitle, companies, sqlProficiency, dbSystem, focusArea, skillLevel, topics, queryComplexity, industry, plan } = req.body;
+  const { plan } = req.body; // Get the plan from the request body
+  const { submittedInformation, '4WeekPlan': week4Plan, '8WeekPlan': week8Plan } = plan; // Destructure with valid variable names
 
-    try {
-        const newPlan = new Plan({
-            experience,
-            role,
-            jobTitle,
-            companies,
-            sqlProficiency,
-            dbSystem,
-            focusArea,
-            skillLevel,
-            topics,
-            queryComplexity,
-            industry,
-            plan
-        });
+  try {
+    const newPlan = new Plan({
+      userId: req.userId, // Ensure this value is being passed correctly
+      experience: submittedInformation.experience,
+      role: submittedInformation.role,
+      targetJobTitle: submittedInformation.targetJobTitle,
+      targetCompanies: submittedInformation.targetCompanies,
+      currentSQLProficiency: submittedInformation.currentSQLProficiency,
+      preferredSQLDatabase: submittedInformation.preferredSQLDatabase,
+      focusArea: submittedInformation.focusArea,
+      targetSQLSkillLevel: submittedInformation.targetSQLSkillLevel,
+      focusTopics: submittedInformation.focusTopics,
+      sqlQueryComplexity: submittedInformation.sqlQueryComplexity,
+      industry: submittedInformation.industry,
+      "4WeekPlan": week4Plan,  // Rename week4Plan to 4WeekPlan in the schema
+      "8WeekPlan": week8Plan,  // Rename week8Plan to 8WeekPlan in the schema
+    });
 
-        const savedPlan = await newPlan.save();
-        res.json(savedPlan);
-    } catch (error) {
-        console.error("Error saving plan:", error);
-        res.status(500).json({ error: "Failed to save plan" });
-    }
+    await newPlan.save(); // Save the plan to the database
+    res.status(201).json({ message: 'Plan saved successfully', plan: newPlan });
+  } catch (error) {
+    console.error('Error saving plan:', error);
+    res.status(500).json({ error: 'Failed to save plan' });
+  }
+};
+
+const getPlan = async (req, res) => {
+  try {
+    const plan = await Plan.find({ userId: req.userId });
+    res.status(200).json(plan);
+  } catch (error) {
+    console.error('Error getting plan:', error);
+    res.status(500).json({ error: 'Failed to get plan' });
+  }
 }
 
-module.exports = { generatePlan };
+
+module.exports = {
+  generatePlan, savePlan, getPlan
+};

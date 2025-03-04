@@ -26,7 +26,7 @@ const auth = (request, response, next) => {
         }
 
         // Attach user ID to request for further use in routes
-        request.userId = decode.id;
+        request.userId = decode.userId;
 
         // Proceed to the next middleware or route handler
         next();
