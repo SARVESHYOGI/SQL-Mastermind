@@ -14,14 +14,22 @@ const Questionnaire = () => {
     const onSubmit = async (data) => {
         try {
             const token = localStorage.getItem("token");
+            if (!token) {
+                console.error("Token is missing");
+                alert("You are not logged in. Please log in first.");
+                return;
+            }
+
             const response = await axios.post(
                 "http://localhost:5000/plan/generate-plan",
                 data,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
+
             console.log(response);
             navigate("/sql-kit", { state: { plan: response.data.plan } });
         } catch (error) {
+            console.error("Error details:", error.response ? error.response.data : error.message);
             alert("Failed to generate plan");
         }
     };
