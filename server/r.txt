@@ -1,3 +1,64 @@
+<div className="p-4">
+                <h1 className="text-2xl font-bold mb-4">Your SQL Prep Plan</h1>
+                <div className="mb-6">
+                    <h2 className="text-xl font-semibold mb-2">Submitted Information</h2>
+                    <ul className="list-none">
+                        {Object.keys(me).map((key) => (
+                            <li key={key} className="mb-2">
+                                <strong>{key.replace(/([A-Z])/g, ' $1').toUpperCase()}:</strong>{" "}
+                                {me[key]}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                Loop through 4WeekPlan and 8WeekPlan
+                {['4WeekPlan', '8WeekPlan'].map((planKey) => {
+                    const weeklyPlan = plan[planKey];
+
+                    return (
+                        <div key={planKey}>
+                            <h2 className="text-xl font-semibold mb-4">{planKey}</h2>
+                            {/* Loop through each week */}
+                            {Object.keys(weeklyPlan).map((weekKey) => {
+                                const week = weeklyPlan[weekKey];
+
+                                return (
+                                    <div key={weekKey} className="mb-6">
+                                        <h3 className="text-lg font-semibold">Week {weekKey.slice(-1)}</h3>
+                                        <p className="text-sm font-medium">Topics Covered:</p>
+                                        <ul className="list-disc pl-5">
+                                            {week.topicsCovered.map((topic, index) => (
+                                                <li key={index}>{topic}</li>
+                                            ))}
+                                        </ul>
+
+                                        <p className="text-sm font-medium mt-2">Exercises:</p>
+                                        <ul className="list-disc pl-5">
+                                            {week.exercises.map((exercise, index) => (
+                                                <li key={index}>{exercise}</li>
+                                            ))}
+                                        </ul>
+
+                                        <p className="text-sm font-medium mt-2">Difficulty Level: {week.difficultyLevel}</p>
+                                        <p className="text-sm font-medium">Time Commitment: {week.timeCommitment}</p>
+
+                                        <p className="text-sm font-medium mt-2">Resources:</p>
+                                        <ul className="list-disc pl-5">
+                                            {week.resources.map((resource, index) => (
+                                                <li key={index}>
+                                                    <a href={resource} target="_blank" rel="noopener noreferrer" className="text-blue-500">
+                                                        {resource}
+                                                    </a>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    );
+                })}
+            </div>
 
 
 
@@ -7,19 +68,14 @@
 
 
 
+           <div className="flex flex-wrap justify-center m-auto">
 
-import OpenAI from "openai";
+                <div>
+                    <Card plan={plan["4WeekPlan"]} />
 
-const openai = new OpenAI({
-  apiKey: "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",
-});
+                </div>
 
-const completion = openai.chat.completions.create({
-  model: "gpt-4o-mini",
-  store: true,
-  messages: [
-    {"role": "user", "content": "write a haiku about ai"},
-  ],
-});
-
-completion.then((result) => console.log(result.choices[0].message));
+                <div>
+                    <Card plan={plan["8WeekPlan"]} />
+                </div>
+            </div>

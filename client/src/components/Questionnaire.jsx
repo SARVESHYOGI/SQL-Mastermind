@@ -2,6 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setPlan } from "../store/planSlice";
 
 const Questionnaire = () => {
     const {
@@ -12,6 +14,8 @@ const Questionnaire = () => {
     const navigate = useNavigate();
 
     const onSubmit = async (data) => {
+        console.log(data);
+        const dispatch = useDispatch();
         try {
             const token = localStorage.getItem("token");
             if (!token) {
@@ -25,9 +29,12 @@ const Questionnaire = () => {
                 data,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
+            // const response = { data: { plan: "plan" } };
 
-            console.log(response);
-            navigate("/sql-kit", { state: { plan: response.data.plan } });
+            console.log(response.data);
+            dispatch(setPlan(response.data));
+            navigate("/sql-kit");
+
         } catch (error) {
             console.error("Error details:", error.response ? error.response.data : error.message);
             alert("Failed to generate plan");

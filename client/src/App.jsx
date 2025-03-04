@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Questionnaire from "./components/Questionnaire";
-import SQLKit from "./components/SQLKit";
 import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/register";
+import SQLKit from "./pages/SQLKit";
 
 function App() {
   return (
