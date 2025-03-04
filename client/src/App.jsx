@@ -7,6 +7,8 @@ import Register from "./pages/auth/register";
 import SQLKit from "./pages/SQLKit";
 import PlanPage from "./pages/PlanPage";
 import NoPage from "./pages/NoPage";
+import DashBoard from "./pages/DashBoard";
+import Layout from "./pages/Layout";
 
 
 
@@ -15,12 +17,16 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/auth/login" element={<Login />} />
-        <Route path="/auth/register" element={<Register />} />
-        <Route path="/questionnaire" element={<Questionnaire />} />
-        <Route path="/sql-kit" element={<SQLKit />} />
-        <Route path="/seeplan/:id" element={<PlanPage />} />
-        <Route path="/*" element={<NoPage />} />
+        <Route element={<Layout />} >
+          <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/register" element={<Register />} />
+          <Route path="/questionnaire" element={<Questionnaire />} />
+          <Route path="/sql-kit" element={<SQLKit />} />
+          <Route path="/seeplan/:id" element={<PlanPage />} />
+          <Route path="/*" element={<NoPage />} />
+        </Route>
+
 
       </Routes>
     </Router>
