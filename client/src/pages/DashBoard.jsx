@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
+import SavedPlan from '../components/SavedPlan'
 
 function DashBoard() {
-
+    const [plans, setPlans] = useState(null);
     const getPlan = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -22,7 +23,8 @@ function DashBoard() {
 
             // Log the response data
             console.log('Plan data:', response.data);  // Access response data
-
+            console.log('Plan data:', typeof (response.data));  // Access response data
+            setPlans(response.data);  // Set the plan data to the state variable
         } catch (error) {
             // Enhanced error handling
             if (error.response && error.response.status === 401) {
@@ -63,9 +65,14 @@ function DashBoard() {
                         <h2 className="text-lg font-semibold text-gray-700 mb-4">
                             My Generated Plans
                         </h2>
-                        <div className="text-center text-gray-500">
-                            No plans generated yet
-                        </div>
+                        {plans ? (<>
+                            <SavedPlan plans={plans} />
+                        </>) : (
+                            <div className="text-center text-gray-500">
+                                No plans generated yet
+                            </div>
+                        )}
+
                     </div>
                 </div>
             </div>

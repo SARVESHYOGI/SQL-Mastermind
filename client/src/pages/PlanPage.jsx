@@ -50,7 +50,6 @@ function PlanPage() {
                                     <li><strong>Resources:</strong> {selectedPlan[week].resources.join(', ')}</li>
                                 </AccordionDetails>
                             </Accordion>
-
                         </ul>
                     </div>
                 ))}
