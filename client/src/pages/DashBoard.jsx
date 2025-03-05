@@ -1,7 +1,45 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import axios from 'axios'
 
 function DashBoard() {
+
+    const getPlan = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                console.error("Token is missing");
+                alert("You are not logged in. Please log in first.");
+                return;
+            }
+
+            // Make GET request to fetch the plan data
+            const response = await axios.get(
+                "http://localhost:5000/plan/getplan",
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            // Log the response data
+            console.log('Plan data:', response.data);  // Access response data
+
+        } catch (error) {
+            // Enhanced error handling
+            if (error.response && error.response.status === 401) {
+                alert("Session expired or invalid token. Please log in again.");
+            } else {
+                console.error('Error fetching plan data:', error);
+                alert("An error occurred while fetching the plan data.");
+            }
+        }
+    };
+
+    // Fetch plan data when the component mounts
+    useEffect(() => {
+        getPlan();
+    }, []);
+
+
     return (
         <div className="container mx-auto px-4 py-8 max-w-4xl">
             <div className="bg-white shadow-md rounded-lg p-6 space-y-6">

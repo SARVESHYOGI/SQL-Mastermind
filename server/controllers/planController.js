@@ -211,14 +211,17 @@ const savePlan = async (req, res) => {
 };
 
 const getPlan = async (req, res) => {
+  console.log('Fetching plan for user:', req.userId); // Log the userId to check if it's passed correctly
   try {
     const plan = await Plan.find({ userId: req.userId });
+    console.log('Plan data:', plan);  // Log the data being returned
     res.status(200).json(plan);
   } catch (error) {
     console.error('Error getting plan:', error);
     res.status(500).json({ error: 'Failed to get plan' });
   }
 }
+
 
 
 module.exports = {
