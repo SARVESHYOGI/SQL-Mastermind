@@ -43,15 +43,15 @@ function DashBoard() {
 
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-4xl">
-            <div className="bg-white shadow-md rounded-lg p-6 space-y-6">
+        <div className="container mx-auto px-4 py-8 max-w-4xl text-white">
+            <div className="bg-white shadow-md p-6 space-y-6 bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold text-gray-800">My Plans</h1>
+                    <h1 className="text-2xl font-bold text-white">My Plans</h1>
                 </div>
 
                 <div className="flex flex-col   items-stretch gap-6">
-                    <div className="flex-1 bg-blue-50 border border-blue-100 rounded-lg p-4 shadow-sm">
-                        <h2 className="text-lg font-semibold text-gray-700 mb-4">
+                    <div className="flex-1 bg-blue-50  p-4 shadow-sm bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
+                        <h2 className="text-lg font-semibold text-whitemb-4">
                             Generate New Plan
                         </h2>
                         <Link to="/questionnaire" className="block">
@@ -61,8 +61,8 @@ function DashBoard() {
                         </Link>
                     </div>
 
-                    <div className="flex-1 bg-gray-50 border border-gray-100 rounded-lg p-4 shadow-sm">
-                        <h2 className="text-lg font-semibold text-gray-700 mb-4">
+                    <div className="flex-1 bg-gray-50 p-4 shadow-sm bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
+                        <h2 className="text-lg font-semibold text-whitemb-4">
                             My Generated Plans
                         </h2>
                         {plans ? (<>

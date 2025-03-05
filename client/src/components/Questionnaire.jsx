@@ -42,7 +42,16 @@ const Questionnaire = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center">
+        // <div className=" bg-gradient-to-br flex items-center justify-center p-4 overflow-hidden">
+        //     <div className="absolute inset-0 bg-white/10 backdrop-blur-xl" style={{
+        //         backgroundImage: 'radial-gradient(circle at top right, rgba(255,255,255,0.2) 0%, transparent 0%)',
+        //         backgroundRepeat: 'no-repeat'
+        //     }}></div>
+
+        //     <div className="relative w-full max-w-md bg-white/30 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl shadow-blue-200/50 p-6">
+
+        <div className="flex flex-col items-center justify-center  bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 w-[50%] text-white p-6 mx-auto
+">
             <h1 className="text-2xl font-bold mb-4">Questionnaire</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md">
                 {/* Years of Experience */}
@@ -51,7 +60,7 @@ const Questionnaire = () => {
                     <input
                         type="number"
                         {...register("experience", { required: "This field is required" })}
-                        className="p-2 border w-full rounded"
+                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
                         placeholder="e.g., 2"
                     />
                     {errors.experience && (
@@ -65,7 +74,7 @@ const Questionnaire = () => {
                     <input
                         type="text"
                         {...register("role", { required: "This field is required" })}
-                        className="p-2 border w-full rounded"
+                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
                         placeholder="e.g., Software Engineer"
                     />
                     {errors.role && (
@@ -79,7 +88,7 @@ const Questionnaire = () => {
                     <input
                         type="text"
                         {...register("jobTitle", { required: "This field is required" })}
-                        className="p-2 border w-full rounded"
+                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
                         placeholder="e.g., Data Analyst"
                     />
                     {errors.jobTitle && (
@@ -93,7 +102,7 @@ const Questionnaire = () => {
                     <input
                         type="text"
                         {...register("companies", { required: "This field is required" })}
-                        className="p-2 border w-full rounded"
+                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
                         placeholder="e.g., Google, Amazon"
                     />
                     {errors.companies && (
@@ -106,12 +115,12 @@ const Questionnaire = () => {
                     <label className="block text-sm font-medium mb-1">Current SQL Proficiency</label>
                     <select
                         {...register("sqlProficiency", { required: "This field is required" })}
-                        className="p-2 border w-full rounded"
+                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
                     >
-                        <option value="">Select proficiency</option>
-                        <option value="Beginner">Beginner</option>
-                        <option value="Intermediate">Intermediate</option>
-                        <option value="Advanced">Advanced</option>
+                        <option className="w-full bg-transparent text-black" value="">Select proficiency</option>
+                        <option className="w-full bg-transparent text-black" value="Beginner">Beginner</option>
+                        <option className="w-full bg-transparent text-black" value="Intermediate">Intermediate</option>
+                        <option className="w-full bg-transparent text-black" value="Advanced">Advanced</option>
                     </select>
                     {errors.sqlProficiency && (
                         <p className="text-red-500 text-sm">{errors.sqlProficiency.message}</p>
@@ -123,13 +132,13 @@ const Questionnaire = () => {
                     <label className="block text-sm font-medium mb-1">Preferred SQL Database</label>
                     <select
                         {...register("dbSystem", { required: "This field is required" })}
-                        className="p-2 border w-full rounded"
+                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
                     >
-                        <option value="">Select database</option>
-                        <option value="MySQL">MySQL</option>
-                        <option value="PostgreSQL">PostgreSQL</option>
-                        <option value="Oracle">Oracle</option>
-                        <option value="SQL Server">SQL Server</option>
+                        <option className="w-full bg-transparent text-black" value="">Select database</option>
+                        <option className="w-full bg-transparent text-black" value="MySQL">MySQL</option>
+                        <option className="w-full bg-transparent text-black" value="PostgreSQL">PostgreSQL</option>
+                        <option className="w-full bg-transparent text-black" value="Oracle">Oracle</option>
+                        <option className="w-full bg-transparent text-black" value="SQL Server">SQL Server</option>
                     </select>
                     {errors.dbSystem && (
                         <p className="text-red-500 text-sm">{errors.dbSystem.message}</p>
@@ -141,13 +150,13 @@ const Questionnaire = () => {
                     <label className="block text-sm font-medium mb-1">Focus Area</label>
                     <select
                         {...register("focusArea", { required: "This field is required" })}
-                        className="p-2 border w-full rounded"
+                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-100 border border-gray-100 text-white py-2 px-2"
                     >
-                        <option value="">Select focus area</option>
-                        <option value="Query Optimization">Query Optimization</option>
-                        <option value="Data Modeling">Data Modeling</option>
-                        <option value="ETL">ETL</option>
-                        <option value="Reporting">Reporting</option>
+                        <option className="w-full bg-transparent text-black" value="">Select focus area</option>
+                        <option className="w-full bg-transparent text-black" value="Query Optimization">Query Optimization</option>
+                        <option className="w-full bg-transparent text-black" value="Data Modeling">Data Modeling</option>
+                        <option className="w-full bg-transparent text-black" value="ETL">ETL</option>
+                        <option className="w-full bg-transparent text-black" value="Reporting">Reporting</option>
                     </select>
                     {errors.focusArea && (
                         <p className="text-red-500 text-sm">{errors.focusArea.message}</p>
@@ -159,12 +168,12 @@ const Questionnaire = () => {
                     <label className="block text-sm font-medium mb-1">Target SQL Skill Level</label>
                     <select
                         {...register("skillLevel", { required: "This field is required" })}
-                        className="p-2 border w-full rounded"
+                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
                     >
-                        <option value="">Select skill level</option>
-                        <option value="Beginner">Beginner</option>
-                        <option value="Intermediate">Intermediate</option>
-                        <option value="Advanced">Advanced</option>
+                        <option className="w-full bg-transparent text-black" value="">Select skill level</option>
+                        <option className="w-full bg-transparent text-black" value="Beginner">Beginner</option>
+                        <option className="w-full bg-transparent text-black" value="Intermediate">Intermediate</option>
+                        <option className="w-full bg-transparent text-black" value="Advanced">Advanced</option>
                     </select>
                     {errors.skillLevel && (
                         <p className="text-red-500 text-sm">{errors.skillLevel.message}</p>
@@ -177,7 +186,7 @@ const Questionnaire = () => {
                     <input
                         type="text"
                         {...register("topics", { required: "This field is required" })}
-                        className="p-2 border w-full rounded"
+                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
                         placeholder="e.g., Joins, Subqueries, Indexing"
                     />
                     {errors.topics && (
@@ -190,12 +199,12 @@ const Questionnaire = () => {
                     <label className="block text-sm font-medium mb-1">SQL Query Complexity</label>
                     <select
                         {...register("queryComplexity", { required: "This field is required" })}
-                        className="p-2 border w-full rounded"
+                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
                     >
-                        <option value="">Select complexity</option>
-                        <option value="Simple Queries">Simple Queries</option>
-                        <option value="Complex Queries">Complex Queries</option>
-                        <option value="Performance-heavy Queries">Performance-heavy Queries</option>
+                        <option value="" className="w-full bg-transparent text-black">Select complexity</option>
+                        <option value="Simple Queries" className="w-full bg-transparent text-black">Simple Queries</option>
+                        <option value="Complex Queries" className="w-full bg-transparent text-black">Complex Queries</option>
+                        <option value="Performance-heavy Queries" className="w-full bg-transparent text-black">Performance-heavy Queries</option>
                     </select>
                     {errors.queryComplexity && (
                         <p className="text-red-500 text-sm">{errors.queryComplexity.message}</p>
@@ -208,7 +217,7 @@ const Questionnaire = () => {
                     <input
                         type="text"
                         {...register("industry", { required: "This field is required" })}
-                        className="p-2 border w-full rounded"
+                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
                         placeholder="e.g., Healthcare, Finance"
                     />
                     {errors.industry && (
@@ -219,12 +228,14 @@ const Questionnaire = () => {
                 {/* Submit Button */}
                 <button
                     type="submit"
-                    className="p-2 bg-blue-500 text-white w-full rounded"
+                    className=" w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2"
                 >
                     Submit
                 </button>
             </form>
         </div>
+        //     </div>
+        // </div>
     );
 };
 

@@ -22,7 +22,7 @@ function App() {
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/register" element={<Register />} />
           <Route path="/questionnaire" element={<Questionnaire />} />
-          <Route path="/sql-kit" element={<SQLKit />} />
+          <Route path="/generatedplans" element={<SQLKit />} />
           <Route path="/seeplan/:id" element={<PlanPage />} />
           <Route path="/*" element={<NoPage />} />
         </Route>
