@@ -33,7 +33,7 @@ const Questionnaire = () => {
 
             console.log(response.data);
             dispatch(setPlan(response.data));
-            navigate("/sql-kit");
+            navigate("/generatedplans");
 
         } catch (error) {
             console.error("Error details:", error.response ? error.response.data : error.message);

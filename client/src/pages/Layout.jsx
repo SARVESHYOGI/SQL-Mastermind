@@ -14,7 +14,7 @@ const Layout = () => {
             </div>
 
             {/* Main Content Area */}
-            <div className="flex-1 p-6 overflow-y-scroll z-10">
+            <div className="flex-1  overflow-y-scroll z-10">
                 <Outlet />
             </div>
         </div>
