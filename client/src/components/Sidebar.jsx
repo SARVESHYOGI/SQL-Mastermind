@@ -27,10 +27,10 @@ export default function Sidebar() {
         setOpen(newOpen);
     };
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        navigate('/auth/login');
+    const logout = async () => {
+        await localStorage.removeItem('token');
     };
+    navigate('/auth/login');
 
     const listItems = [
         { text: 'Home', icon: <HomeIcon />, href: "/" },

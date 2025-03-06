@@ -32,7 +32,7 @@ const Questionnaire = () => {
             const response = { data: { plan: "plan" } };
 
             console.log(response.data);
-            dispatch(setPlan(response.data));
+            // dispatch(setPlan(response.data));
             navigate("/generatedplans");
 
         } catch (error) {
