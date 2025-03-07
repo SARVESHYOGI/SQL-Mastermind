@@ -48,7 +48,7 @@ export default function Sidebar() {
         <Box sx={{
             // backgroundColor: 'rgba(255, 255, 255, 0.1)', // Transparent background with slight opacity
             backdropFilter: 'blur(100px)', // Frosted glass effect
-            borderRight: '1px solid rgba(255, 255, 255, 0.2)', // Light border
+            borderRight: '1px solid rgba(255, 255, 255, 0.3)', // Light border
             borderRadius: '0.375rem', // Rounded corners
             color: 'white',
             height: '100%',
