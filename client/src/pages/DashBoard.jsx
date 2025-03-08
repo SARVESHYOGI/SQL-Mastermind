@@ -21,7 +21,7 @@ function DashBoard() {
             }
 
             // Make GET request to fetch the plan data
-            const response = await axios.get("http://localhost:5000/plan/getplan", {
+            const response = await axios.get("https://ai-powered-sql-prep.onrender.com/plan/getplan", {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -47,7 +47,7 @@ function DashBoard() {
 
         try {
             setLoading(true);
-            const response = await axios.delete(`http://localhost:5000/plan/deleteplan/${id}`, {
+            const response = await axios.delete(`https://ai-powered-sql-prep.onrender.com/plan/deleteplan/${id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },

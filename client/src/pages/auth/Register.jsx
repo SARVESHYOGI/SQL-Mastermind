@@ -14,7 +14,7 @@ const Register = () => {
     const handleRegister = async () => {
         try {
             setLoading(true);
-            await axios.post("http://localhost:5000/auth/register", { name, email, password });
+            await axios.post("https://ai-powered-sql-prep.onrender.com/auth/register", { name, email, password });
             setLoading(false);
             toast.success("Registration successful");
             navigate("/auth/login");

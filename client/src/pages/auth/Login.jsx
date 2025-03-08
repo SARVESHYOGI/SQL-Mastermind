@@ -15,7 +15,7 @@ const Login = () => {
         try {
             setLoading(true);
             const response = await axios.post(
-                "http://localhost:5000/auth/login",
+                "https://ai-powered-sql-prep.onrender.com/auth/login",
                 { email, password },
                 { withCredentials: true }
             );
