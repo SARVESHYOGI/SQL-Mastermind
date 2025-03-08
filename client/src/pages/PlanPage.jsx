@@ -1,3 +1,5 @@
+// generateted paln plan vala
+
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -21,29 +23,30 @@ function PlanPage() {
     const selectedPlan = plan[id];
 
     return (
-        <div className="p-6">
+        <div className="p-6" style={{ backgroundColor: 'transparent', color: 'white' }}>
             <h2 className="text-2xl font-bold mb-4">Your {id}:</h2>
             <div>
                 {Object.keys(selectedPlan).map((week) => (
                     <div key={week} className="mb-6">
-
                         <ul>
-                            <Accordion slotProps={{ heading: { component: 'h4' } }}>
+                            <Accordion
+                                slotProps={{ heading: { component: 'h4' } }}
+                                sx={{ backgroundColor: 'transparent', color: 'white' }}
+                            >
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="panel1-content"
                                     id="panel1-header"
+                                    sx={{ backgroundColor: 'transparent', color: 'white' }}
                                 >
-                                    <Typography component="span" sx={{ width: '33%', flexShrink: 0 }}>
+                                    <Typography component="span" sx={{ width: '33%', flexShrink: 0, color: 'white' }}>
                                         <h3 className="text-xl font-semibold">{week}</h3>
-
                                     </Typography>
-                                    <Typography component="span" sx={{ color: 'text.secondary' }}>
+                                    <Typography component="span" sx={{ color: 'white' }}>
                                         <li><strong>Difficulty:</strong> {selectedPlan[week].difficultyLevel}</li>
-
                                     </Typography>
                                 </AccordionSummary>
-                                <AccordionDetails>
+                                <AccordionDetails sx={{ backgroundColor: 'transparent', color: 'white' }}>
                                     <li><strong>Topics Covered:</strong> {selectedPlan[week].topicsCovered.join(', ')}</li>
                                     <li><strong>Exercises:</strong> {selectedPlan[week].exercises.join(', ')}</li>
                                     <li><strong>Time Commitment:</strong> {selectedPlan[week].timeCommitment}</li>

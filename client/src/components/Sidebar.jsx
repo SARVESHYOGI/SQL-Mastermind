@@ -29,8 +29,9 @@ export default function Sidebar() {
 
     const logout = async () => {
         await localStorage.removeItem('token');
+        navigate('/auth/login');
+
     };
-    navigate('/auth/login');
 
     const listItems = [
         { text: 'Home', icon: <HomeIcon />, href: "/" },
