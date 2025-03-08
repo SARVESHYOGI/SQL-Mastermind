@@ -62,6 +62,29 @@ npm start
 3. Get an **AI-generated SQL preparation plan**.
 4. Follow the plan to prepare for **big tech interviews**!
 
+## Preview 🖼️
+Home Page
+![AI SQL Prep Plan Screenshot](https://res.cloudinary.com/dztzgqzjp/image/upload/v1741453503/HomaPage_fodjoq.png)
+Login Page
+![AI SQL Prep Plan Screenshot](https://res.cloudinary.com/dztzgqzjp/image/upload/v1741453520/login_ka5csv.png)
+Register Page
+![AI SQL Prep Plan Screenshot](https://res.cloudinary.com/dztzgqzjp/image/upload/v1741453540/register_ro6agg.png)
+Question Form
+![AI SQL Prep Plan Screenshot](https://res.cloudinary.com/dztzgqzjp/image/upload/v1741453519/Question_syc2sl.png)
+Generated Form For Submitted Questions
+![AI SQL Prep Plan Screenshot](https://res.cloudinary.com/dztzgqzjp/image/upload/v1741453558/generatedplan_gutte5.png)
+Generated 4 week Plan
+![AI SQL Prep Plan Screenshot](https://res.cloudinary.com/dztzgqzjp/image/upload/v1741453522/see4weekplan_tayyh5.png)
+Generated 8 week Plan
+![AI SQL Prep Plan Screenshot](https://res.cloudinary.com/dztzgqzjp/image/upload/v1741453506/see8weekplan_xqzk7r.png)
+Dashboard Before Saving Information
+![AI SQL Prep Plan Screenshot](https://res.cloudinary.com/dztzgqzjp/image/upload/v1741453521/DashBoard1_gnprgv.png)
+Dashboard after Saving Information (Plan 3 added)
+![AI SQL Prep Plan Screenshot](https://res.cloudinary.com/dztzgqzjp/image/upload/v1741453527/dashboard2_irzao0.png)
+Sidebar
+![AI SQL Prep Plan Screenshot](https://res.cloudinary.com/dztzgqzjp/image/upload/v1741453522/sidebar_wz9y8t.png)
+
+
 ## Future Enhancements 🚀
 - 📌 **Progress Tracking** for users.
 - 📌 **More AI-Generated Insights** for SQL concepts.
