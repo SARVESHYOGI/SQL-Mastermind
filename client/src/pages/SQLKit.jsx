@@ -54,7 +54,7 @@ const SQLKit = () => {
             <div className="flex flex-wrap justify-center m-auto items-center text-white w-full max-w-4xl">
                 <div className="grid grid-cols-2 gap-4 w-full">
                     {
-                        Object.keys(plan.submittedInformation).map((key, index) => {
+                        plan.submittedInformation && Object.keys(plan.submittedInformation).map((key, index) => {
                             return (
                                 <div key={key} className=" shadow-md p-1 space-y-6 bg-gray-800 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 ">
                                     <strong>{key}:</strong> {plan.submittedInformation[key]}

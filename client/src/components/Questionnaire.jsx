@@ -24,15 +24,15 @@ const Questionnaire = () => {
                 return;
             }
 
-            // const response = await axios.post(
-            //     "http://localhost:5000/plan/generate-plan",
-            //     data,
-            //     { headers: { Authorization: `Bearer ${token}` } }
-            // );
-            const response = { data: { plan: "plan" } };
+            const response = await axios.post(
+                "http://localhost:5000/plan/generate-plan",
+                data,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            // const response = { data: { plan: "plan" } };
 
             console.log(response.data);
-            // dispatch(setPlan(response.data));
+            dispatch(setPlan(response.data));
             navigate("/generatedplans");
 
         } catch (error) {
