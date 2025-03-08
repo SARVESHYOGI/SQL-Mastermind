@@ -27,7 +27,7 @@ const Questionnaire = () => {
             }
 
             const response = await axios.post(
-                "https://ai-powered-sql-prep.onrender.com/plan/generate-plan",
+                "http://localhost:5000/plan/generate-plan",
                 data,
                 { headers: { Authorization: `Bearer ${token}` } }
             );

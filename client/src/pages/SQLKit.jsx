@@ -31,7 +31,7 @@ const SQLKit = () => {
         }
 
         // Add the token to the Authorization header
-        axios.post("https://ai-powered-sql-prep.onrender.com/plan/saveplan", { plan }, {
+        axios.post("http://localhost:5000/plan/saveplan", { plan }, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
