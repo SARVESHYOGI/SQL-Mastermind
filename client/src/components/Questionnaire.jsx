@@ -1,26 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setPlan } from "../store/planSlice";
+import Loading from "../components/Loading"; // Assuming you have a Loading component
+import toast from "react-hot-toast";
 
 const Questionnaire = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
+    const [loading, setLoading] = useState(false); // State to handle loading
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const onSubmit = async (data) => {
+        setLoading(true); // Set loading to true when the submission starts
         console.log(data);
+
         try {
             const token = localStorage.getItem("token");
             if (!token) {
                 console.error("Token is missing");
                 alert("You are not logged in. Please log in first.");
+                setLoading(false); // Set loading to false after error handling
                 return;
             }
 
@@ -29,29 +31,26 @@ const Questionnaire = () => {
                 data,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            // const response = { data: { plan: "plan" } };
 
             console.log(response.data);
-            dispatch(setPlan(response.data));
+            dispatch(setPlan(response.data)); // Store the generated plan
             navigate("/generatedplans");
-
+            toast.success("Plan generated successfully");
+            // Navigate to the generated plans page
         } catch (error) {
             console.error("Error details:", error.response ? error.response.data : error.message);
-            alert("Failed to generate plan");
+            toast.error("Failed to generate plan");
+        } finally {
+            setLoading(false); // Set loading to false after request is done
         }
     };
 
+    if (loading) {
+        return <Loading />; // Show loading component when the form is submitting
+    }
+
     return (
-        // <div className=" bg-gradient-to-br flex items-center justify-center p-4 overflow-hidden">
-        //     <div className="absolute inset-0 bg-white/10 backdrop-blur-xl" style={{
-        //         backgroundImage: 'radial-gradient(circle at top right, rgba(255,255,255,0.2) 0%, transparent 0%)',
-        //         backgroundRepeat: 'no-repeat'
-        //     }}></div>
-
-        //     <div className="relative w-full max-w-md bg-white/30 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl shadow-blue-200/50 p-6">
-
-        <div className="flex flex-col items-center justify-center  bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 w-[50%] text-white p-6 mx-auto
-">
+        <div className="flex flex-col items-center justify-center bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 w-[50%] text-white p-6 mx-auto">
             <h1 className="text-2xl font-bold mb-4">Questionnaire</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md">
                 {/* Years of Experience */}
@@ -150,7 +149,7 @@ const Questionnaire = () => {
                     <label className="block text-sm font-medium mb-1">Focus Area</label>
                     <select
                         {...register("focusArea", { required: "This field is required" })}
-                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-100 border border-gray-100 text-white py-2 px-2"
+                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
                     >
                         <option className="w-full bg-transparent text-black" value="">Select focus area</option>
                         <option className="w-full bg-transparent text-black" value="Query Optimization">Query Optimization</option>
@@ -228,14 +227,12 @@ const Questionnaire = () => {
                 {/* Submit Button */}
                 <button
                     type="submit"
-                    className=" w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2"
+                    className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2"
                 >
                     Submit
                 </button>
             </form>
         </div>
-        //     </div>
-        // </div>
     );
 };
 

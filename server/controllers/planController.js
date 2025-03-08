@@ -222,8 +222,27 @@ const getPlan = async (req, res) => {
   }
 }
 
+const deleteplan = async (req, res) => {
+  try {
+    // Find the plan by ID
+    const plan = await Plan.findById(req.params.id);
+
+    // If no plan is found, return a 404 response
+    if (!plan) {
+      return res.status(404).json({ message: 'Plan not found' });
+    }
+
+    // If the plan exists, delete it
+    await Plan.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'Plan deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting plan:', error);
+    res.status(500).json({ error: 'Failed to delete plan' });
+  }
+};
+
 
 
 module.exports = {
-  generatePlan, savePlan, getPlan
+  generatePlan, savePlan, getPlan, deleteplan
 };

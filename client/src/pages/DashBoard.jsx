@@ -3,11 +3,16 @@ import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import SavedPlan from '../components/SavedPlan'
+import toast from 'react-hot-toast'
+import Loading from '../components/Loading'
 
 function DashBoard() {
-    const [plans, setPlans] = useState(null);
+    const [plans, setPlans] = useState([]);
+    const [loading, setLoading] = useState(false);
+
     const getPlan = async () => {
         try {
+            setLoading(true);
             const token = localStorage.getItem("token");
             if (!token) {
                 console.error("Token is missing");
@@ -16,17 +21,18 @@ function DashBoard() {
             }
 
             // Make GET request to fetch the plan data
-            const response = await axios.get(
-                "http://localhost:5000/plan/getplan",
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
+            const response = await axios.get("http://localhost:5000/plan/getplan", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
 
-            // Log the response data
-            console.log('Plan data:', response.data);  // Access response data
-            console.log('Plan data:', typeof (response.data));  // Access response data
-            setPlans(response.data);  // Set the plan data to the state variable
+            // Log and set plan data to state
+            console.log('Plan data:', response.data);
+            setPlans(response.data);  // Update state with the fetched plans
+            setLoading(false) // Log plan data
+
         } catch (error) {
             // Enhanced error handling
+            setLoading(false);
             if (error.response && error.response.status === 401) {
                 alert("Session expired or invalid token. Please log in again.");
             } else {
@@ -36,11 +42,37 @@ function DashBoard() {
         }
     };
 
-    // Fetch plan data when the component mounts
+    const deleteplan = async (id) => {
+        console.log('Deleting plan with ID:', id);
+
+        try {
+            setLoading(true);
+            const response = await axios.delete(`http://localhost:5000/plan/deleteplan/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+
+            // Log success and update state to remove the deleted plan
+            console.log('Plan deleted:', response.data);
+            setLoading(false);
+            // Remove deleted plan from the state without re-fetching
+            toast.success("Plan deleted successfully.");
+            setPlans(prevPlans => prevPlans.filter(plan => plan._id !== id));
+        } catch (err) {
+            console.error('Error deleting plan:', err);
+            setLoading(false);
+            toast.error("Failed to delete plan. Please try again.");
+        }
+    };
+
     useEffect(() => {
         getPlan();
     }, []);
 
+    if (loading) {
+        return <div><Loading /></div>;
+    }
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-4xl text-white">
@@ -66,7 +98,7 @@ function DashBoard() {
                             My Generated Plans
                         </h2>
                         {plans ? (<>
-                            <SavedPlan plans={plans} />
+                            <SavedPlan deleteplan={deleteplan} plans={plans} />
                         </>) : (
                             <div className="text-center text-gray-500">
                                 No plans generated yet

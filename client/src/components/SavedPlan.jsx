@@ -4,12 +4,14 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
 
 function SavedPlan(props) {
-    const { plans } = props;
+    const { plans, deleteplan } = props;
     const white = 'white';
+
     return (
-        <div className="space-y-4  ">
+        <div className="space-y-4">
             {plans.map((plan, planIndex) => (
                 <div >
                     <Accordion key={plan._id || planIndex} sx={{
@@ -125,6 +127,8 @@ function SavedPlan(props) {
                             </div>
                         </AccordionDetails>
                     </Accordion >
+
+                    <button className='bg-green-500 px-1 rounded-lg' onClick={() => deleteplan(plan._id)}>Delete Plan {planIndex + 1}</button>
                 </div >
             ))
             }

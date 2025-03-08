@@ -1,13 +1,14 @@
 // generateted paln plan vala
 
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 function PlanPage() {
@@ -24,14 +25,26 @@ function PlanPage() {
 
     return (
         <div className="p-6" style={{ backgroundColor: 'transparent', color: 'white' }}>
-            <h2 className="text-2xl font-bold mb-4">Your {id}:</h2>
+            <h2 className="text-2xl font-bold m-4">Your {id}:</h2>
             <div>
                 {Object.keys(selectedPlan).map((week) => (
                     <div key={week} className="mb-6">
                         <ul>
                             <Accordion
                                 slotProps={{ heading: { component: 'h4' } }}
-                                sx={{ backgroundColor: 'transparent', color: 'white' }}
+                                sx={{
+                                    backgroundColor: 'rgba(1, 1, 1, 0.1)', // Tailwind yellow-700 with opacity
+                                    backdropFilter: 'blur(10px)',
+                                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                                    borderRadius: '0.375rem', // Tailwind rounded-md equivalent
+                                    marginBottom: '1rem',
+                                    '&:before': {
+                                        display: 'none', // Removes the default line before the accordion
+                                    },
+                                    color: 'white',
+
+
+                                }}
                             >
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
@@ -57,6 +70,7 @@ function PlanPage() {
                     </div>
                 ))}
             </div>
+            <div className='bg-green-500 p-2 rounded-xl w-fit'><Link to='/generatedplans'>Go back</Link></div>
         </div>
     );
 }

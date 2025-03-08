@@ -9,12 +9,16 @@ import PlanPage from "./pages/PlanPage";
 import NoPage from "./pages/NoPage";
 import DashBoard from "./pages/DashBoard";
 import Layout from "./pages/Layout";
+import { Toaster } from 'react-hot-toast';
+import Loading from "./components/Loading";
 
 
 
 function App() {
+
   return (
     <Router>
+      <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route element={<Layout />} >

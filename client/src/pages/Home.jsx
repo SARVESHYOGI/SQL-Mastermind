@@ -36,9 +36,7 @@ function Home() {
                             Get Started
                         </button>
 
-                        <button className="mt-8 text-white uppercase py-4 text-base font-light px-10 border border-white hover:bg-white hover:bg-opacity-10">
-                            Learn More
-                        </button>
+
                     </div>
                 </div>
             </div>

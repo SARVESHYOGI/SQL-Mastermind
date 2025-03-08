@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import Loading from "../../components/Loading";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
+            setLoading(true);
             const response = await axios.post(
                 "http://localhost:5000/auth/login",
                 { email, password },
@@ -24,14 +28,18 @@ const Login = () => {
             // Store the token in localStorage
             localStorage.setItem("token", token);
             console.log("Token stored in localStorage:", localStorage.getItem("token")); // Log stored token
-
+            setLoading(false);
+            toast.success("Login successful");
             navigate("/dashboard");
         } catch (error) {
+            setLoading(false);
             console.error("Login Error:", error.response ? error.response.data : error.message);
-            alert("Login failed");
+            toast.error("Login failed");
         }
     };
-
+    if (loading) {
+        return <div><Loading /></div>;
+    }
     return (
         <div className="flex flex-col items-center justify-center h-full bg-gray-100 bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 ">
             <div className="w-full max-w-sm p-8 bg-white  shadow-md bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 ">
