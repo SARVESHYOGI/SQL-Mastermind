@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Questionnaire from "./components/Questionnaire";
 import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
-import Register from "./pages/auth/register";
+import Register from "./pages/auth/Register";
 import SQLKit from "./pages/SQLKit";
 import PlanPage from "./pages/PlanPage";
 import NoPage from "./pages/NoPage";
