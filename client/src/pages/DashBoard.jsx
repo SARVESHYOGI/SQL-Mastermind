@@ -5,6 +5,7 @@ import axios from 'axios'
 import SavedPlan from '../components/SavedPlan'
 import toast from 'react-hot-toast'
 import Loading from '../components/Loading'
+import { BACKENDURL } from '../App'
 
 function DashBoard() {
     const [plans, setPlans] = useState([]);
@@ -21,7 +22,7 @@ function DashBoard() {
             }
 
             // Make GET request to fetch the plan data
-            const response = await axios.get("https://ai-powered-sql-prep.onrender.com/plan/getplan", {
+            const response = await axios.get(`${BACKENDURL}/plan/getplan`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -47,7 +48,7 @@ function DashBoard() {
 
         try {
             setLoading(true);
-            const response = await axios.delete(`https://ai-powered-sql-prep.onrender.com/plan/deleteplan/${id}`, {
+            const response = await axios.delete(`${BACKENDURL}/plan/deleteplan/${id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import Loading from "../../components/Loading";
+import { BACKENDURL } from "../../App";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ const Login = () => {
         try {
             setLoading(true);
             const response = await axios.post(
-                "https://ai-powered-sql-prep.onrender.com/auth/login",
+                `${BACKENDURL}/auth/login`,
                 { email, password },
                 { withCredentials: true }
             );

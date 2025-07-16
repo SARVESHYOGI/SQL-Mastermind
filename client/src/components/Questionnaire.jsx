@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { setPlan } from "../store/planSlice";
 import Loading from "../components/Loading"; // Assuming you have a Loading component
 import toast from "react-hot-toast";
+import { BACKENDURL } from "../App";
 
 const Questionnaire = () => {
     const [loading, setLoading] = useState(false); // State to handle loading
@@ -27,7 +28,7 @@ const Questionnaire = () => {
             }
 
             const response = await axios.post(
-                "https://ai-powered-sql-prep.onrender.com/plan/generate-plan",
+                `${BACKENDURL}/plan/generate-plan`,
                 data,
                 { headers: { Authorization: `Bearer ${token}` } }
             );

@@ -4,11 +4,10 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
 
 function SavedPlan(props) {
     const { plans, deleteplan } = props;
-    const white = 'white';
+    // const white = 'white';
 
     return (
         <div className="space-y-4">

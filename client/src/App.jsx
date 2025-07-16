@@ -13,6 +13,8 @@ import { Toaster } from 'react-hot-toast';
 import Loading from "./components/Loading";
 
 
+// export const BACKENDURL = "http://localhost:5000";
+export const BACKENDURL = "https://ai-powered-sql-prep.onrender.com";
 
 function App() {
 

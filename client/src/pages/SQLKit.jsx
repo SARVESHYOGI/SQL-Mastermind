@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import Loading from "../components/Loading";
 import toast from "react-hot-toast";
+import { BACKENDURL } from "../App";
 
 const SQLKit = () => {
     // Get the plan from the Redux store
@@ -31,7 +32,7 @@ const SQLKit = () => {
         }
 
         // Add the token to the Authorization header
-        axios.post("https://ai-powered-sql-prep.onrender.com/plan/saveplan", { plan }, {
+        axios.post(`${BACKENDURL}/plan/saveplan`, { plan }, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
@@ -61,7 +62,7 @@ const SQLKit = () => {
             {/* Render the submitted information */}
             <div className="flex flex-wrap justify-center m-auto items-center text-white w-full max-w-4xl">
                 <div className="grid grid-cols-2 gap-4 w-full">
-                    {plan.submittedInformation && Object.keys(plan.submittedInformation).map((key, index) => (
+                    {plan.submittedInformation && Object.keys(plan.submittedInformation).map((key) => (
                         <div key={key} className="shadow-md p-1 space-y-6 bg-gray-800 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
                             <strong>{key}:</strong> {plan.submittedInformation[key]}
                         </div>

@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Loading from "../../components/Loading";
+import { BACKENDURL } from "../../App";
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -14,12 +15,15 @@ const Register = () => {
     const handleRegister = async () => {
         try {
             setLoading(true);
-            await axios.post("https://ai-powered-sql-prep.onrender.com/auth/register", { name, email, password });
+            await axios.post(
+                `${BACKENDURL}/auth/register`,
+                { name, email, password });
             setLoading(false);
             toast.success("Registration successful");
             navigate("/auth/login");
         } catch (error) {
             setLoading(false);
+            console.log(error);
             toast.error("Registration failed");
         }
     };

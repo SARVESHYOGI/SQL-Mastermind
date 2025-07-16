@@ -12,7 +12,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 function PlanPage() {
-    const { id } = useParams(); // This will get the dynamic part of the URL (either '4WeekPlan' or '8WeekPlan')
+    const { id } = useParams();
     const plan = useSelector((state) => state.plan.plan);
 
     // Ensure the plan exists
