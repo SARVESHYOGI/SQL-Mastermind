@@ -1,31 +1,40 @@
-
-import { motion } from "motion/react"
+import { motion } from "framer-motion";
 
 function Loading() {
-    const dotVariants = {
-        jump: {
-            y: -30,
+    const progressLineVariants = {
+        start: {
+            width: "0%",
             transition: {
-                duration: 0.8,
+                duration: 2,
                 repeat: Infinity,
-                repeatType: "mirror",
-                ease: "easeInOut",
+                repeatType: "loop",
+                ease: "linear",
             },
         },
-    }
+        end: {
+            width: "100%",
+            transition: {
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "loop",
+                ease: "linear",
+            },
+        },
+    };
 
     return (
         <motion.div
-            animate="jump"
-            transition={{ staggerChildren: -0.2, staggerDirection: -1 }}
             className="container absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-transparent backdrop-filter backdrop-blur-sm bg-opacity-10 p-4 rounded-md"
         >
-            <motion.div className="dot" variants={dotVariants} />
-            <motion.div className="dot" variants={dotVariants} />
-            <motion.div className="dot" variants={dotVariants} />
+            {/* Progress line */}
+            <motion.div
+                className="progress-line"
+                variants={progressLineVariants}
+                animate="end"
+            />
             <StyleSheet />
         </motion.div>
-    )
+    );
 }
 
 /**
@@ -40,18 +49,18 @@ function StyleSheet() {
                 justify-content: center;
                 align-items: center;
                 gap: 10px;
+                width: 200px; /* Width of the container */
+                height: 20px; /* Height of the container */
             }
 
-            .dot {
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
+            .progress-line {
+                height: 6px; /* Line thickness */
+                border-radius: 5px;
                 background-color: #ffffff;
-                will-change: transform;
             }
             `}
         </style>
-    )
+    );
 }
 
 export default Loading;

@@ -5,13 +5,14 @@ import axios from "axios";
 import Loading from "../components/Loading";
 import toast from "react-hot-toast";
 import { BACKENDURL } from "../App";
+import { Link } from "react-router-dom";
 
 const SQLKit = () => {
-    // Get the plan from the Redux store
     const plan = useSelector((state) => state.plan.plan);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
+    const [minLoading, setMinLoading] = useState(false);
 
     if (!plan) {
         return <div><Loading /></div>;
@@ -21,17 +22,18 @@ const SQLKit = () => {
         setLoading(true);
         setError(null);
         setSuccess(false);
+        const minLoadingTimer = setTimeout(() => {
+            setMinLoading(true);
+        }, 1500);
 
-        // Retrieve token from localStorage
-        const token = localStorage.getItem('token'); // Or any other storage mechanism
-
+        const token = localStorage.getItem('token');
         if (!token) {
             setError('Unauthorized. Please log in.');
+            clearTimeout(minLoadingTimer);
             setLoading(false);
             return;
         }
 
-        // Add the token to the Authorization header
         axios.post(`${BACKENDURL}/plan/saveplan`, { plan }, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -46,13 +48,33 @@ const SQLKit = () => {
             .catch((err) => {
                 console.error(err);
                 setError("Failed to save plan.");
-                setLoading(false);
                 toast.error("Failed to save plan.");
+            }).finally(() => {
+                clearTimeout(minLoadingTimer);
+                setLoading(false);
             });
     };
 
-    if (loading) {
-        return <Loading />; // Show loading component when the form is submitting
+    if (loading && !minLoading) {
+        return <Loading />;
+    }
+    if (Object.keys(plan).length === 0) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="w-64 bg-gray-900 text-white flex flex-col items-center justify-center p-6 rounded-lg shadow-md">
+                    <p className="mb-4 text-lg font-semibold">No plan generated</p>
+                    <Link to='/questionnaire'>
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200 m-1  mx-auto flex justify-center w-full">
+                            Generate New Plan
+                        </button>
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200 m-1 mx-auto flex justify-center w-full">
+                            previous Plans
+                        </button>
+                    </Link>
+
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -60,6 +82,7 @@ const SQLKit = () => {
             <h1 className="text-2xl font-bold mb-4">Your New SQL Learning Plan for</h1>
 
             {/* Render the submitted information */}
+
             <div className="flex flex-wrap justify-center m-auto items-center text-white w-full max-w-4xl">
                 <div className="grid grid-cols-2 gap-4 w-full">
                     {plan.submittedInformation && Object.keys(plan.submittedInformation).map((key) => (

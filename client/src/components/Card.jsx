@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import week4 from '../assets/week4.png';
-import week8 from '../assets/week8.png';
+import week4 from '/public/week4.png';
+import week8 from '/public/week8.png';
 
 function Card({ plans, id }) {
-    // Check if plans and plans.week1 exist
     if (!plans || !plans[id]) {
-        return <div className="text-red-500">Plans data is missing.</div>; // Fallback if plans is undefined or does not have the given id
+        return <div className="text-red-500">Plans data is missing.</div>;
     }
 
     return (

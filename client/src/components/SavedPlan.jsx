@@ -127,7 +127,7 @@ function SavedPlan(props) {
                         </AccordionDetails>
                     </Accordion >
 
-                    <button className='bg-green-500 px-1 rounded-lg' onClick={() => deleteplan(plan._id)}>Delete Plan {planIndex + 1}</button>
+                    <button className='bg-red-800 px-1 rounded-lg' onClick={() => deleteplan(plan._id)}>Delete Plan {planIndex + 1}</button>
                 </div >
             ))
             }
