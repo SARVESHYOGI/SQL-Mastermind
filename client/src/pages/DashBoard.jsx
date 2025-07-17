@@ -10,42 +10,11 @@ import { BACKENDURL } from '../App'
 function DashBoard() {
     const [plans, setPlans] = useState([]);
     const [loading, setLoading] = useState(false);
-
-    const getPlan = async () => {
-        try {
-            setLoading(true);
-            const token = localStorage.getItem("token");
-            if (!token) {
-                console.error("Token is missing");
-                alert("You are not logged in. Please log in first.");
-                return;
-            }
-
-            // Make GET request to fetch the plan data
-            const response = await axios.get(`${BACKENDURL}/plan/getplan`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-
-            // Log and set plan data to state
-            console.log('Plan data:', response.data);
-            setPlans(response.data);  // Update state with the fetched plans
-            setLoading(false) // Log plan data
-
-        } catch (error) {
-            // Enhanced error handling
-            setLoading(false);
-            if (error.response && error.response.status === 401) {
-                alert("Session expired or invalid token. Please log in again.");
-            } else {
-                console.error('Error fetching plan data:', error);
-                alert("An error occurred while fetching the plan data.");
-            }
-        }
-    };
+    const [error, setError] = useState(null);
+    const [minLoading, setMinLoading] = useState(false);
 
     const deleteplan = async (id) => {
         console.log('Deleting plan with ID:', id);
-
         try {
             setLoading(true);
             const response = await axios.delete(`${BACKENDURL}/plan/deleteplan/${id}`, {
@@ -54,10 +23,9 @@ function DashBoard() {
                 },
             });
 
-            // Log success and update state to remove the deleted plan
             console.log('Plan deleted:', response.data);
             setLoading(false);
-            // Remove deleted plan from the state without re-fetching
+
             toast.success("Plan deleted successfully.");
             setPlans(prevPlans => prevPlans.filter(plan => plan._id !== id));
         } catch (err) {
@@ -67,13 +35,57 @@ function DashBoard() {
         }
     };
 
+    const getPlans = async () => {
+        try {
+            setLoading(true);
+            const token = localStorage.getItem("token");
+            if (!token) {
+                console.error("Token is missing");
+                alert("You are not logged in. Please log in first.");
+                setLoading(false);
+                return;
+            }
+
+            const response = await axios.get(`${BACKENDURL}/plan/getplan`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            console.log('Plan data:', response.data);
+            setPlans(response.data);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            setError(error);
+            if (error.response && error.response.status === 401) {
+                alert("Session expired or invalid token. Please log in again.");
+            } else {
+                console.error('Error fetching plan data:', error);
+                alert("An error occurred while fetching the plan data.");
+            }
+        }
+    };
+
     useEffect(() => {
-        getPlan();
+        const minLoadingTime = setTimeout(() => {
+            setMinLoading(false);
+        }, 1500);
+
+        setMinLoading(true);
+
+        return () => clearTimeout(minLoadingTime);
+    }, []);
+    useEffect(() => {
+        getPlans();
     }, []);
 
-    if (loading) {
+    if (loading || minLoading) {
         return <div><Loading /></div>;
     }
+
+    if (error) {
+        return <div>Error loading data. Please try again later.</div>;
+    }
+
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-4xl text-white">
