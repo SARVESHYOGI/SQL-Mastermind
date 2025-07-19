@@ -1,4 +1,4 @@
-# AI-Powered SQL Prep Plan 🚀
+# SQL Mastermind🚀
 
 An AI-powered platform built with **MERN stack** + **Gemini API** to help users prepare for SQL interviews at big tech companies. The platform asks targeted questions and generates a structured SQL preparation plan based on user responses.
 
