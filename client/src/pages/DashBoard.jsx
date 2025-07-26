@@ -35,6 +35,22 @@ function DashBoard() {
         }
     };
 
+    const trackplan = async (id) => {
+        console.log("added to tracking plan");
+        try {
+            console.log("tracking ", id);
+            const response = await axios.post(`${BACKENDURL}/track/trackplan/${id}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+            console.log("Trackplan from dashboard", response);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const getPlans = async () => {
         try {
             setLoading(true);
@@ -111,7 +127,7 @@ function DashBoard() {
                             My Generated Plans
                         </h2>
                         {plans ? (<>
-                            <SavedPlan deleteplan={deleteplan} plans={plans} />
+                            <SavedPlan deleteplan={deleteplan} plans={plans} trackplan={trackplan} />
                         </>) : (
                             <div className="text-center text-gray-500">
                                 No plans generated yet

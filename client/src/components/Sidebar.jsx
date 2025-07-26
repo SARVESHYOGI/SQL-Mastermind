@@ -40,6 +40,7 @@ export default function Sidebar() {
         isLoggedIn && { text: 'dashboard', icon: <DashboardIcon />, href: "/dashboard" },
         isLoggedIn && { text: 'generate plan', icon: <QuizIcon />, href: "/questionnaire" },
         isLoggedIn && { text: 'generated plans', icon: <TipsAndUpdatesIcon />, href: "/generatedplans" },
+        isLoggedIn && { text: 'trackingplan', icon: <TipsAndUpdatesIcon />, href: "/trackingplan" },
         isLoggedIn && { text: 'logout', icon: <LogoutIcon />, onClick: logout },
     ];
 

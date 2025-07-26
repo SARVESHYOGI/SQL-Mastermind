@@ -6,9 +6,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
 
 function SavedPlan(props) {
-    const { plans, deleteplan } = props;
+    const { plans, deleteplan, trackplan } = props;
     // const white = 'white';
-
+    console.log(plans);
     return (
         <div className="space-y-4">
             {plans.map((plan, planIndex) => (
@@ -128,6 +128,7 @@ function SavedPlan(props) {
                     </Accordion >
 
                     <button className='bg-red-800 px-1 rounded-lg' onClick={() => deleteplan(plan._id)}>Delete Plan {planIndex + 1}</button>
+                    <button className='bg-blue-800 mx-2 px-1 rounded-lg' onClick={() => trackplan(plan._id)}>Track Plan {planIndex + 1}</button>
                 </div >
             ))
             }

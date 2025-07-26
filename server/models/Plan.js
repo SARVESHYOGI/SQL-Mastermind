@@ -5,7 +5,11 @@ const weekSchema = new mongoose.Schema({
     exercises: [String],
     difficultyLevel: String,
     timeCommitment: String,
-    resources: [String]
+    resources: [String],
+    isCompleted: {
+        type: Boolean,
+        default: false
+    },
 }, { _id: false });
 
 const planSchema = new mongoose.Schema({

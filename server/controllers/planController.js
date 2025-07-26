@@ -173,6 +173,8 @@ Do not include extra words like "json starts" or "json ends".
     const generatedText = await result.response.text();
     const cleanedText = generatedText.replace(/```json\n|\n```/g, '');
     const jsonData = JSON.parse(cleanedText);
+
+    console.log("Json Data :=> ", jsonData);
     res.json(jsonData);
   } catch (error) {
     console.error("Error generating plan:", error);
@@ -181,12 +183,12 @@ Do not include extra words like "json starts" or "json ends".
 };
 
 const savePlan = async (req, res) => {
-  const { plan } = req.body; // Get the plan from the request body
-  const { submittedInformation, '4WeekPlan': week4Plan, '8WeekPlan': week8Plan } = plan; // Destructure with valid variable names
+  const { plan } = req.body;
+  const { submittedInformation, '4WeekPlan': week4Plan, '8WeekPlan': week8Plan } = plan;
 
   try {
     const newPlan = new Plan({
-      userId: req.userId, // Ensure this value is being passed correctly
+      userId: req.userId,
       experience: submittedInformation.experience,
       role: submittedInformation.role,
       targetJobTitle: submittedInformation.targetJobTitle,
@@ -198,11 +200,11 @@ const savePlan = async (req, res) => {
       focusTopics: submittedInformation.focusTopics,
       sqlQueryComplexity: submittedInformation.sqlQueryComplexity,
       industry: submittedInformation.industry,
-      "4WeekPlan": week4Plan,  // Rename week4Plan to 4WeekPlan in the schema
-      "8WeekPlan": week8Plan,  // Rename week8Plan to 8WeekPlan in the schema
+      "4WeekPlan": week4Plan,
+      "8WeekPlan": week8Plan,
     });
 
-    await newPlan.save(); // Save the plan to the database
+    await newPlan.save();
     res.status(201).json({ message: 'Plan saved successfully', plan: newPlan });
   } catch (error) {
     console.error('Error saving plan:', error);
@@ -211,10 +213,10 @@ const savePlan = async (req, res) => {
 };
 
 const getPlan = async (req, res) => {
-  console.log('Fetching plan for user:', req.userId); // Log the userId to check if it's passed correctly
+  console.log('Fetching plan for user:', req.userId);
   try {
     const plan = await Plan.find({ userId: req.userId });
-    console.log('Plan data:', plan);  // Log the data being returned
+    console.log('Plan data:', plan);
     res.status(200).json(plan);
   } catch (error) {
     console.error('Error getting plan:', error);
