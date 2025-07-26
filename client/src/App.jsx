@@ -11,6 +11,7 @@ import DashBoard from "./pages/DashBoard";
 import Layout from "./pages/Layout";
 import { Toaster } from 'react-hot-toast';
 import Loading from "./components/Loading";
+import TrackPlan from "./pages/TrackPlan";
 
 
 // export const BACKENDURL = "http://localhost:5000";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/questionnaire" element={<Questionnaire />} />
           <Route path="/generatedplans" element={<SQLKit />} />
           <Route path="/seeplan/:id" element={<PlanPage />} />
+          <Route path="/trackingplan" element={<TrackPlan />} />
           <Route path="/*" element={<NoPage />} />
         </Route>
 

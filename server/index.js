@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const dotenv = require("dotenv");
 const authRoutes = require("./routes/authRoutes");
 const planRoutes = require("./routes/planRoutes");
+const trackplanRoutes = require("./routes/trackplanRoute");
 const errorHandler = require("./middleware/errorHandler");
 const connectDB = require("./db/connectDB");
 
@@ -27,6 +28,7 @@ connectDB();
 // Routes
 app.use("/auth", authRoutes);
 app.use("/plan", planRoutes);
+app.use("/track", trackplanRoutes);
 
 // Error Handling Middleware
 app.use(errorHandler);
