@@ -45,8 +45,9 @@ function DashBoard() {
                 },
             });
             console.log("Trackplan from dashboard", response);
-
+            toast.success("Plan added to tracking successfully.");
         } catch (error) {
+            toast.error("Failed to add plan to tracking. Plan already exists.");
             console.log(error);
         }
     }
