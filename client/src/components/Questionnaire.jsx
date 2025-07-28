@@ -4,26 +4,148 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setPlan } from "../store/planSlice";
-import Loading from "../components/Loading"; // Assuming you have a Loading component
+import Loading from "../components/Loading";
 import toast from "react-hot-toast";
 import { BACKENDURL } from "../App";
+import { motion, AnimatePresence } from "motion/react"
+
+const formFields = [
+    {
+        name: "experience",
+        label: "Years of Experience",
+        type: "number",
+        placeholder: "e.g., 2",
+        required: true,
+    },
+    {
+        name: "role",
+        label: "Current Role",
+        type: "text",
+        placeholder: "e.g., Software Engineer",
+        required: true,
+    },
+    {
+        name: "jobTitle",
+        label: "Target Job Title",
+        type: "text",
+        placeholder: "e.g., Data Analyst",
+        required: true,
+    },
+    {
+        name: "companies",
+        label: "Target Companies (comma separated)",
+        type: "text",
+        placeholder: "e.g., Google, Amazon",
+        required: true,
+    },
+    {
+        name: "sqlProficiency",
+        label: "Current SQL Proficiency Level",
+        type: "select",
+        options: ["Beginner", "Intermediate", "Advanced"],
+        required: true,
+    },
+    {
+        name: "dbSystem",
+        label: "Preferred SQL Database",
+        type: "select",
+        options: ["MySQL", "PostgreSQL", "Oracle", "SQL Server"],
+        required: true,
+    },
+    {
+        name: "focusArea",
+        label: "What area do you want to focus on?",
+        type: "select",
+        options: ["Query Optimization", "Data Modeling", "ETL", "Reporting"],
+        required: true,
+    },
+    {
+        name: "skillLevel",
+        label: "Target SQL Skill Level",
+        type: "select",
+        options: ["Beginner", "Intermediate", "Advanced"],
+        required: true,
+    },
+    {
+        name: "topics",
+        label: "Specific Topics You Want to Learn (comma separated)",
+        type: "text",
+        placeholder: "e.g., Joins, Subqueries, Indexing",
+        required: true,
+    },
+    {
+        name: "queryComplexity",
+        label: "What query complexity are you targeting?",
+        type: "select",
+        options: ["Simple Queries", "Complex Queries", "Performance-heavy Queries"],
+        required: true,
+    },
+    {
+        name: "industry",
+        label: "Target Industry",
+        type: "text",
+        placeholder: "e.g., Healthcare, Finance",
+        required: true,
+    },
+];
+
+const questionVariants = {
+    enter: (direction) => ({
+        x: direction > 0 ? 100 : -100,
+        opacity: 0,
+    }),
+    center: {
+        x: 0,
+        opacity: 1,
+    },
+    exit: (direction) => ({
+        x: direction < 0 ? 100 : -100,
+        opacity: 0,
+    }),
+};
+
+const progressBarVariants = {
+    initial: { width: "0%" },
+    animate: { width: "100%" },
+};
 
 const Questionnaire = () => {
-    const [loading, setLoading] = useState(false); // State to handle loading
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const [loading, setLoading] = useState(false);
+    const [currentQuestion, setCurrentQuestion] = useState(0);
+    const [direction, setDirection] = useState(1);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        trigger,
+        getValues,
+    } = useForm();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const handleNext = async () => {
+        const fieldName = formFields[currentQuestion].name;
+        const isValid = await trigger(fieldName);
+
+        if (isValid) {
+            setDirection(1);
+            setCurrentQuestion((prev) => prev + 1);
+        }
+    };
+
+    const handlePrev = () => {
+        setDirection(-1);
+        setCurrentQuestion((prev) => prev - 1);
+    };
+
     const onSubmit = async (data) => {
-        setLoading(true); // Set loading to true when the submission starts
-        console.log(data);
+        setLoading(true);
 
         try {
             const token = localStorage.getItem("token");
             if (!token) {
-                console.error("Token is missing");
-                alert("You are not logged in. Please log in first.");
-                setLoading(false); // Set loading to false after error handling
+                toast.error("You are not logged in. Please log in first.");
+                setLoading(false);
                 return;
             }
 
@@ -33,207 +155,139 @@ const Questionnaire = () => {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
-            console.log(response.data);
-            dispatch(setPlan(response.data)); // Store the generated plan
+            dispatch(setPlan(response.data));
             navigate("/generatedplans");
             toast.success("Plan generated successfully");
-            // Navigate to the generated plans page
         } catch (error) {
-            console.error("Error details:", error.response ? error.response.data : error.message);
+            console.error("Error:", error.response?.data || error.message);
             toast.error("Failed to generate plan");
         } finally {
-            setLoading(false); // Set loading to false after request is done
+            setLoading(false);
         }
     };
 
     if (loading) {
-        return <Loading />; // Show loading component when the form is submitting
+        return <Loading />;
     }
 
     return (
-        <div className="flex flex-col items-center justify-center bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 w-[50%] text-white p-6 mx-auto">
-            <h1 className="text-2xl font-bold mb-4">Questionnaire</h1>
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md">
-                {/* Years of Experience */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Years of Experience</label>
-                    <input
-                        type="number"
-                        {...register("experience", { required: "This field is required" })}
-                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
-                        placeholder="e.g., 2"
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-900"
+        >
+            <div className="w-full max-w-2xl">
+                {/* Progress Bar */}
+                <div className="h-2 bg-gray-700 rounded-full mb-8 overflow-hidden">
+                    <motion.div
+                        initial="initial"
+                        animate="animate"
+                        variants={progressBarVariants}
+                        transition={{ duration: 0.5 }}
+                        className="h-full bg-blue-500"
+                        style={{
+                            width: `${((currentQuestion + 1) / formFields.length) * 100}%`,
+                        }}
                     />
-                    {errors.experience && (
-                        <p className="text-red-500 text-sm">{errors.experience.message}</p>
-                    )}
                 </div>
 
-                {/* Role */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Role</label>
-                    <input
-                        type="text"
-                        {...register("role", { required: "This field is required" })}
-                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
-                        placeholder="e.g., Software Engineer"
-                    />
-                    {errors.role && (
-                        <p className="text-red-500 text-sm">{errors.role.message}</p>
-                    )}
+                <div className="relative h-96 overflow-hidden">
+                    <AnimatePresence custom={direction}>
+                        <motion.div
+                            key={currentQuestion}
+                            custom={direction}
+                            variants={questionVariants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            className="absolute inset-0 flex flex-col items-center justify-center bg-gray-800 rounded-lg p-6 shadow-lg"
+                        >
+                            <h2 className="text-xl font-semibold mb-6 text-center text-blue-400">
+                                {formFields[currentQuestion].label}
+                            </h2>
+
+                            {formFields[currentQuestion].type === "select" ? (
+                                <select
+                                    {...register(formFields[currentQuestion].name, {
+                                        required: formFields[currentQuestion].required && "This field is required",
+                                    })}
+                                    className="w-full bg-gray-700 rounded-md text-white py-3 px-4 mb-4 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                    defaultValue={getValues(formFields[currentQuestion].name) || ""}
+                                >
+                                    <option value="">Select an option</option>
+                                    {formFields[currentQuestion].options.map((option) => (
+                                        <option key={option} value={option}>
+                                            {option}
+                                        </option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <input
+                                    type={formFields[currentQuestion].type}
+                                    {...register(formFields[currentQuestion].name, {
+                                        required: formFields[currentQuestion].required && "This field is required",
+                                    })}
+                                    className="w-full bg-gray-700 rounded-md text-white py-3 px-4 mb-4 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                    placeholder={formFields[currentQuestion].placeholder}
+                                    defaultValue={getValues(formFields[currentQuestion].name) || ""}
+                                />
+                            )}
+
+                            {errors[formFields[currentQuestion].name] && (
+                                <motion.p
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    className="text-red-400 text-sm mb-4"
+                                >
+                                    {errors[formFields[currentQuestion].name].message}
+                                </motion.p>
+                            )}
+
+                            <div className="flex justify-between w-full mt-6">
+                                <motion.button
+                                    type="button"
+                                    onClick={handlePrev}
+                                    disabled={currentQuestion === 0}
+                                    className={`px-6 py-2 rounded-md ${currentQuestion === 0 ? "bg-gray-600 cursor-not-allowed" : "bg-gray-700 hover:bg-gray-600"}`}
+                                    whileHover={currentQuestion > 0 ? { scale: 1.05 } : {}}
+                                    whileTap={currentQuestion > 0 ? { scale: 0.95 } : {}}
+                                >
+                                    Back
+                                </motion.button>
+
+                                {currentQuestion < formFields.length - 1 ? (
+                                    <motion.button
+                                        type="button"
+                                        onClick={handleNext}
+                                        className="px-6 py-2 bg-blue-600 rounded-md hover:bg-blue-700"
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        Next
+                                    </motion.button>
+                                ) : (
+                                    <motion.button
+                                        type="button"
+                                        onClick={handleSubmit(onSubmit)}
+                                        className="px-6 py-2 bg-green-600 rounded-md hover:bg-green-700"
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        Submit
+                                    </motion.button>
+                                )}
+                            </div>
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
 
-                {/* Job Title */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Target Job Title</label>
-                    <input
-                        type="text"
-                        {...register("jobTitle", { required: "This field is required" })}
-                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
-                        placeholder="e.g., Data Analyst"
-                    />
-                    {errors.jobTitle && (
-                        <p className="text-red-500 text-sm">{errors.jobTitle.message}</p>
-                    )}
+                <div className="text-center mt-4 text-gray-400">
+                    Question {currentQuestion + 1} of {formFields.length}
                 </div>
-
-                {/* Target Companies */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Target Companies</label>
-                    <input
-                        type="text"
-                        {...register("companies", { required: "This field is required" })}
-                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
-                        placeholder="e.g., Google, Amazon"
-                    />
-                    {errors.companies && (
-                        <p className="text-red-500 text-sm">{errors.companies.message}</p>
-                    )}
-                </div>
-
-                {/* SQL Proficiency */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Current SQL Proficiency</label>
-                    <select
-                        {...register("sqlProficiency", { required: "This field is required" })}
-                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
-                    >
-                        <option className="w-full bg-transparent text-black" value="">Select proficiency</option>
-                        <option className="w-full bg-transparent text-black" value="Beginner">Beginner</option>
-                        <option className="w-full bg-transparent text-black" value="Intermediate">Intermediate</option>
-                        <option className="w-full bg-transparent text-black" value="Advanced">Advanced</option>
-                    </select>
-                    {errors.sqlProficiency && (
-                        <p className="text-red-500 text-sm">{errors.sqlProficiency.message}</p>
-                    )}
-                </div>
-
-                {/* Preferred SQL Database */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Preferred SQL Database</label>
-                    <select
-                        {...register("dbSystem", { required: "This field is required" })}
-                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
-                    >
-                        <option className="w-full bg-transparent text-black" value="">Select database</option>
-                        <option className="w-full bg-transparent text-black" value="MySQL">MySQL</option>
-                        <option className="w-full bg-transparent text-black" value="PostgreSQL">PostgreSQL</option>
-                        <option className="w-full bg-transparent text-black" value="Oracle">Oracle</option>
-                        <option className="w-full bg-transparent text-black" value="SQL Server">SQL Server</option>
-                    </select>
-                    {errors.dbSystem && (
-                        <p className="text-red-500 text-sm">{errors.dbSystem.message}</p>
-                    )}
-                </div>
-
-                {/* Focus Area */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Focus Area</label>
-                    <select
-                        {...register("focusArea", { required: "This field is required" })}
-                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
-                    >
-                        <option className="w-full bg-transparent text-black" value="">Select focus area</option>
-                        <option className="w-full bg-transparent text-black" value="Query Optimization">Query Optimization</option>
-                        <option className="w-full bg-transparent text-black" value="Data Modeling">Data Modeling</option>
-                        <option className="w-full bg-transparent text-black" value="ETL">ETL</option>
-                        <option className="w-full bg-transparent text-black" value="Reporting">Reporting</option>
-                    </select>
-                    {errors.focusArea && (
-                        <p className="text-red-500 text-sm">{errors.focusArea.message}</p>
-                    )}
-                </div>
-
-                {/* Target SQL Skill Level */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Target SQL Skill Level</label>
-                    <select
-                        {...register("skillLevel", { required: "This field is required" })}
-                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
-                    >
-                        <option className="w-full bg-transparent text-black" value="">Select skill level</option>
-                        <option className="w-full bg-transparent text-black" value="Beginner">Beginner</option>
-                        <option className="w-full bg-transparent text-black" value="Intermediate">Intermediate</option>
-                        <option className="w-full bg-transparent text-black" value="Advanced">Advanced</option>
-                    </select>
-                    {errors.skillLevel && (
-                        <p className="text-red-500 text-sm">{errors.skillLevel.message}</p>
-                    )}
-                </div>
-
-                {/* Focus Topics in SQL */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Focus Topics in SQL</label>
-                    <input
-                        type="text"
-                        {...register("topics", { required: "This field is required" })}
-                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
-                        placeholder="e.g., Joins, Subqueries, Indexing"
-                    />
-                    {errors.topics && (
-                        <p className="text-red-500 text-sm">{errors.topics.message}</p>
-                    )}
-                </div>
-
-                {/* SQL Query Complexity */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">SQL Query Complexity</label>
-                    <select
-                        {...register("queryComplexity", { required: "This field is required" })}
-                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
-                    >
-                        <option value="" className="w-full bg-transparent text-black">Select complexity</option>
-                        <option value="Simple Queries" className="w-full bg-transparent text-black">Simple Queries</option>
-                        <option value="Complex Queries" className="w-full bg-transparent text-black">Complex Queries</option>
-                        <option value="Performance-heavy Queries" className="w-full bg-transparent text-black">Performance-heavy Queries</option>
-                    </select>
-                    {errors.queryComplexity && (
-                        <p className="text-red-500 text-sm">{errors.queryComplexity.message}</p>
-                    )}
-                </div>
-
-                {/* Target Industry */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Target Industry</label>
-                    <input
-                        type="text"
-                        {...register("industry", { required: "This field is required" })}
-                        className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2"
-                        placeholder="e.g., Healthcare, Finance"
-                    />
-                    {errors.industry && (
-                        <p className="text-red-500 text-sm">{errors.industry.message}</p>
-                    )}
-                </div>
-
-                {/* Submit Button */}
-                <button
-                    type="submit"
-                    className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2"
-                >
-                    Submit
-                </button>
-            </form>
-        </div>
+            </div>
+        </motion.div>
     );
 };
 

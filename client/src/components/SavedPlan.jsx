@@ -14,10 +14,10 @@ function SavedPlan(props) {
             {plans.map((plan, planIndex) => (
                 <div >
                     <Accordion key={plan._id || planIndex} sx={{
-                        backgroundColor: 'rgba(1, 1, 1, 0.1)', // Tailwind yellow-700 with opacity
+                        backgroundColor: 'rgba(1, 1, 1, 0.1)',
                         backdropFilter: 'blur(10px)',
                         border: '1px solid rgba(255, 255, 255, 0.2)',
-                        borderRadius: '0.375rem', // Tailwind rounded-md equivalent
+                        borderRadius: '0.375rem',
                         marginBottom: '1rem',
                         '&:before': {
                             display: 'none', // Removes the default line before the accordion
