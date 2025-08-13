@@ -21,7 +21,7 @@ import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 export default function Sidebar() {
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
-    const isLoggedIn = localStorage.getItem('token');  // Check if the user is logged in
+    const isLoggedIn = localStorage.getItem('token');
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -48,38 +48,37 @@ export default function Sidebar() {
 
     const DrawerList = (
         <Box sx={{
-            // backgroundColor: 'rgba(255, 255, 255, 0.1)', // Transparent background with slight opacity
-            backdropFilter: 'blur(100px)', // Frosted glass effect
-            borderRight: '1px solid rgba(255, 255, 255, 0.3)', // Light border
-            borderRadius: '0.375rem', // Rounded corners
+            backdropFilter: 'blur(100px)',
+            borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '0.375rem',
             color: 'white',
             height: '100%',
-            padding: '16px', // Add space at the top
+            padding: '16px',
             background: 'transparent',
-            overflowY: 'hidden', // Ensures the background is fully transparent
+            overflowY: 'hidden',
         }} role="presentation" onClick={toggleDrawer(false)}>
             <List sx={{
                 width: 250,
                 flex: '1 1 auto',
                 display: 'flex',
                 flexDirection: 'column',
-                padding: '0', // Remove default padding
-                justifyContent: 'center', // Space between items
-                height: '100%', // Full height
-                overflowY: 'hidden', // Allow scrolling
+                padding: '0',
+                justifyContent: 'center',
+                height: '100%',
+                overflowY: 'hidden',
             }}>
                 {filteredListItems.map((item, index) => (
                     <Link to={item.href ? item.href : "#"} key={index}>
                         <ListItem key={index} disablePadding>
                             <ListItemButton onClick={item.onClick} sx={{
-                                background: 'rgba(255, 255, 255, 0.15)', // Slightly transparent button background
-                                borderRadius: '8px', // Rounded corners for the button
-                                margin: '8px 0', // Space between buttons
+                                background: '#2e3c50',
+                                borderRadius: '8px',
+                                margin: '8px 0',
                                 '&:hover': {
-                                    background: 'rgba(255, 255, 255, 0.3)', // On hover, increase opacity
+                                    background: 'rgba(255, 255, 255, 0.3)',
                                 },
-                                backdropFilter: 'blur(5px)', // Apply a blur effect to the button
-                                transition: 'background 0.3s ease', // Smooth transition effect
+                                backdropFilter: 'blur(5px)',
+                                transition: 'background 0.3s ease',
                             }}>
                                 <ListItemIcon sx={{ color: 'white' }}>
                                     {item.icon}
@@ -104,8 +103,8 @@ export default function Sidebar() {
                 onClose={toggleDrawer(false)}
                 sx={{
                     "& .MuiDrawer-paper": {
-                        backgroundColor: "transparent", // Transparent background for the drawer
-                        boxShadow: "none", // Remove shadow for a cleaner look
+                        backgroundColor: "#121b29",
+                        boxShadow: "none",
                     },
                 }}
             >

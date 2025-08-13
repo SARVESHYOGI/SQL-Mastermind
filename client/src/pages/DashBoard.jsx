@@ -105,36 +105,31 @@ function DashBoard() {
 
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-4xl text-white">
-            <div className="bg-white shadow-md p-6 space-y-6 bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
-                <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold text-white">My Plans</h1>
+        <div className="container mx-auto px-4 py-10 max-w-3xl text-white">
+            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-xl shadow-2xl border border-gray-700 p-8 space-y-8">
+                <div className="flex items-center justify-between mb-6">
+                    <h1 className="text-3xl font-extrabold text-white tracking-tight">My Plans</h1>
                 </div>
 
-                <div className="flex flex-col   items-stretch gap-6">
-                    <div className="flex-1 bg-blue-50  p-4 shadow-sm bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
-                        <h2 className="text-lg font-semibold text-whitemb-4">
-                            Generate New Plan
-                        </h2>
+                <div className="flex flex-col gap-8">
+                    <div className="bg-blue-500 bg-opacity-20 rounded-xl p-6 shadow-lg border border-blue-400/40">
+                        <h2 className="text-xl font-semibold text-white mb-4">Generate New Plan</h2>
                         <Link to="/questionnaire" className="block">
-                            <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400">
                                 Create New Plan
                             </button>
                         </Link>
                     </div>
 
-                    <div className="flex-1 bg-gray-50 p-4 shadow-sm bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
-                        <h2 className="text-lg font-semibold text-whitemb-4">
-                            My Generated Plans
-                        </h2>
-                        {plans ? (<>
+                    <div className="bg-gray-700 bg-opacity-30 rounded-xl p-6 shadow-lg border border-gray-500/40">
+                        <h2 className="text-xl font-semibold text-white mb-4">My Generated Plans</h2>
+                        {plans && plans.length > 0 ? (
                             <SavedPlan deleteplan={deleteplan} plans={plans} trackplan={trackplan} />
-                        </>) : (
-                            <div className="text-center text-gray-500">
+                        ) : (
+                            <div className="text-center text-gray-300 py-8">
                                 No plans generated yet
                             </div>
                         )}
-
                     </div>
                 </div>
             </div>
