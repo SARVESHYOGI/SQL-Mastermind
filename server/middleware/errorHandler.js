@@ -1,5 +1,5 @@
 const errorHandler = (err, req, res, next) => {
-    console.error(err.stack); // Log the error for debugging
+    console.error(err.stack);
     res.status(500).json({ error: "Something went wrong on the server." });
 };
 

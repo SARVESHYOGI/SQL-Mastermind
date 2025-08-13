@@ -158,14 +158,11 @@ Do not include extra words like "json starts" or "json ends".
     `;
 
   try {
-    // Initialize GoogleGenerativeAI with the API key
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    // Generate content using the provided prompt
     const result = await model.generateContent(prompt);
 
-    // Check if result is properly returned and extract text
     if (!result || !result.response || !result.response.text) {
       throw new Error("No valid response from Google API.");
     }
@@ -181,6 +178,9 @@ Do not include extra words like "json starts" or "json ends".
     res.status(500).json({ error: "Failed to generate plan" });
   }
 };
+// Initialize GoogleGenerativeAI with the API key
+// Generate content using the provided prompt
+// Check if result is properly returned and extract text
 
 const savePlan = async (req, res) => {
   const { plan } = req.body;
@@ -226,15 +226,12 @@ const getPlan = async (req, res) => {
 
 const deleteplan = async (req, res) => {
   try {
-    // Find the plan by ID
     const plan = await Plan.findById(req.params.id);
 
-    // If no plan is found, return a 404 response
     if (!plan) {
       return res.status(404).json({ message: 'Plan not found' });
     }
 
-    // If the plan exists, delete it
     await Plan.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: 'Plan deleted successfully' });
   } catch (error) {
@@ -242,6 +239,9 @@ const deleteplan = async (req, res) => {
     res.status(500).json({ error: 'Failed to delete plan' });
   }
 };
+// Find the plan by ID
+// If no plan is found, return a 404 response
+// If the plan exists, delete it
 
 
 

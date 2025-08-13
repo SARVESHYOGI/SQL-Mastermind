@@ -3,14 +3,12 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Joi = require("joi");
 
-// Validation Schema for Registration
 const registerSchema = Joi.object({
     name: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
 });
 
-// Validation Schema for Login
 const loginSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
