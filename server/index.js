@@ -15,8 +15,9 @@ const app = express();
 // Middleware
 app.use(cors(
     {
-        origin: "https://ai-powered-sql-prep.vercel.app",
+        // origin: "https://ai-powered-sql-prep.vercel.app",
         // origin: "http://localhost:5173",
+        origin: "*",
         credentials: true,
         allowedHeaders: ['Content-Type', 'Authorization']
     }
