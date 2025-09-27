@@ -16,31 +16,37 @@ function Home() {
         <div>
 
             <div className="w-screen h-screen overflow-hidden relative before:block before:absolute before:bg-black before:h-full before:w-full before:top-0 before:left-0 before:z-10 before:opacity-30">
-                {/* <img src="https://static.vecteezy.com/system/resources/thumbnails/008/300/420/small_2x/multiple-database-is-placed-on-relational-database-tables-with-server-room-and-datacenter-background-concept-of-database-server-sql-data-storage-database-diagram-design-3d-illustration-photo.jpg" className="absolute top-0 left-0 min-h-full ob bg-cover w-full" alt="" /> */}
-                <img src="/image.png" className="absolute top-0 left-0 min-h-full ob bg-cover w-full" alt="" />
 
-                <div className="relative z-20 max-w-screen-lg mx-auto grid grid-cols-12 h-full items-center">
-                    <div className="col-span-6">
-                        <span className="uppercase text-white text-xs font-bold mb-2 block">TAILORED SQL INTERVIEW PREPARATION</span>
+                <img src="/image.png" className="absolute top-0 left-0 min-h-full object-cover w-full" alt="" />
 
-                        <h1 className="text-white font-extrabold text-5xl mb-8">AI-Powered SQL Interview Plans</h1>
+                <div className="relative z-20 max-w-screen-lg mx-auto grid grid-cols-1 md:grid-cols-12 h-full items-center px-4 md:px-8">
+                    <div className="col-span-1 md:col-span-6 text-center md:text-left">
+                        <span className="uppercase text-white text-xs font-bold mb-2 block">
+                            TAILORED SQL INTERVIEW PREPARATION
+                        </span>
 
-                        <p className="text-stone-100 text-base">
+                        <h1 className="text-white font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 md:mb-8">
+                            AI-Powered SQL Interview Plans
+                        </h1>
+
+                        <p className="text-stone-100 text-base sm:text-lg leading-relaxed">
                             Preparing for an SQL interview can be challenging. Whether you’re aiming for top tech companies or working on improving your skills, you need a customized study plan based on your experience and target goals.
                         </p>
 
-                        <p className="text-stone-100 text-base mt-4">
+                        <p className="text-stone-100 text-base sm:text-lg mt-4 leading-relaxed">
                             Our AI-powered tool generates a personalized SQL interview preparation plan just for you. By answering a simple questionnaire, you can get a roadmap tailored to your experience level, the companies you're targeting, and the areas you need to improve.
                         </p>
 
-                        <button onClick={handleclick} className="mt-8 mr-4 text-white uppercase py-4 text-base font-light px-10 border border-white hover:bg-white hover:bg-opacity-10">
+                        <button
+                            onClick={handleclick}
+                            className="mt-6 sm:mt-8 mr-0 sm:mr-4 w-full sm:w-auto text-white uppercase py-3 sm:py-4 text-sm sm:text-base font-light px-8 sm:px-10 border border-white hover:bg-white hover:bg-opacity-10 transition-all duration-300"
+                        >
                             Get Started
                         </button>
-
-
                     </div>
                 </div>
             </div>
+
 
 
         </div>
