@@ -18,6 +18,7 @@ const planSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    subject: String,
     experience: String,
     role: String,
     targetJobTitle: String,

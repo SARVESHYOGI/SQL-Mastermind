@@ -1,24 +1,24 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenAI } = require("@google/genai");
 const Plan = require("../models/Plan");
 
 const generatePlan = async (req, res) => {
-  const { experience, role, jobTitle, companies, sqlProficiency, dbSystem, focusArea, skillLevel, topics, queryComplexity, industry } = req.body;
+  const { subject, experience, role, jobTitle, companies, currentProficiency, focusArea, skillLevel, topics, complexity, industry } = req.body;
 
   const prompt = `
-    Generate a SQL preparation plan for a user with the following details:
+    Generate a personalized preparation plan for a user with the following details:
+    - Subject: ${subject}
       - Experience: ${experience} years
       - Role: ${role}
       - Target Job Title: ${jobTitle}
       - Target Companies: ${companies}
-      - Current SQL Proficiency: ${sqlProficiency}
-      - Preferred SQL Database: ${dbSystem}
+      - Current Proficiency in ${subject}: ${currentProficiency}
       - Focus Area: ${focusArea}
-      - Target SQL Skill Level: ${skillLevel}
-      - Focus Topics in SQL: ${topics}
-      - SQL Query Complexity: ${queryComplexity}
+      - Target Skill Level: ${skillLevel}
+      - Key Topics to Focus On: ${topics}
+      - Expected Question/Task Complexity: ${complexity}
       - Target Industry: ${industry}
     
-    Please structure the response in JSON format with the following sections:
+    Please structure the response in JSON format with the following sections (for example if subject is sql then..):
     
     1. **Submitted Information**: Include the user's details as provided.
     2. **Preparation Plan**: Provide two detailed SQL preparation plans:
@@ -158,16 +158,27 @@ Do not include extra words like "json starts" or "json ends".
     `;
 
   try {
-    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
+    // const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+    // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const result = await model.generateContent(prompt);
-
-    if (!result || !result.response || !result.response.text) {
+    // const result = await model.generateContent(prompt);
+    const result = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: prompt }]
+        }
+      ]
+    });
+    console.log(result.text);
+    if (!result || !result.text) {
       throw new Error("No valid response from Google API.");
     }
 
-    const generatedText = await result.response.text();
+    const generatedText = await result.text;
     const cleanedText = generatedText.replace(/```json\n|\n```/g, '');
     const jsonData = JSON.parse(cleanedText);
 
@@ -188,6 +199,7 @@ const savePlan = async (req, res) => {
 
   try {
     const newPlan = new Plan({
+      subject: submittedInformation.subject,
       userId: req.userId,
       experience: submittedInformation.experience,
       role: submittedInformation.role,

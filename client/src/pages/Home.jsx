@@ -22,19 +22,20 @@ function Home() {
                 <div className="relative z-20 max-w-screen-lg mx-auto grid grid-cols-1 md:grid-cols-12 h-full items-center px-4 md:px-8">
                     <div className="col-span-1 md:col-span-6 text-center md:text-left">
                         <span className="uppercase text-white text-xs font-bold mb-2 block">
-                            TAILORED SQL INTERVIEW PREPARATION
+                            PERSONALIZED LEARNING FOR ANY SUBJECT
                         </span>
 
                         <h1 className="text-white font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 md:mb-8">
-                            AI-Powered SQL Interview Plans
+                            AI-Powered Study Plans for Every Learner
                         </h1>
 
                         <p className="text-stone-100 text-base sm:text-lg leading-relaxed">
-                            Preparing for an SQL interview can be challenging. Whether you’re aiming for top tech companies or working on improving your skills, you need a customized study plan based on your experience and target goals.
+                            Learning new subjects can feel overwhelming — whether you're preparing for software engineering interviews, mastering computer science fundamentals, or exploring completely new domains like math, cloud, or data engineering.
                         </p>
 
                         <p className="text-stone-100 text-base sm:text-lg mt-4 leading-relaxed">
-                            Our AI-powered tool generates a personalized SQL interview preparation plan just for you. By answering a simple questionnaire, you can get a roadmap tailored to your experience level, the companies you're targeting, and the areas you need to improve.
+                            Our AI-powered platform creates a fully personalized learning roadmap for any subject you choose.
+                            Just answer a few simple questions about your goals, experience level, and timelines, and we generate a complete study plan tailored specifically for you.
                         </p>
 
                         <button
