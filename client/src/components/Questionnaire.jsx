@@ -11,6 +11,13 @@ import { motion, AnimatePresence } from "motion/react"
 
 const formFields = [
     {
+        name: "subject",
+        label: "What subject do you want to prepare for?",
+        type: "text",
+        placeholder: "e.g., Data Structures, Operating Systems, JavaScript, Maths",
+        required: true,
+    },
+    {
         name: "experience",
         label: "Years of Experience",
         type: "number",
@@ -21,73 +28,67 @@ const formFields = [
         name: "role",
         label: "Current Role",
         type: "text",
-        placeholder: "e.g., Software Engineer",
+        placeholder: "e.g., Software Engineer, Student, Fresher",
         required: true,
     },
     {
         name: "jobTitle",
         label: "Target Job Title",
         type: "text",
-        placeholder: "e.g., Data Analyst",
+        placeholder: "e.g., Backend Developer, Data Analyst",
         required: true,
     },
     {
         name: "companies",
         label: "Target Companies (comma separated)",
         type: "text",
-        placeholder: "e.g., Google, Amazon",
-        required: true,
+        placeholder: "e.g., Google, Amazon, Infosys",
+        required: false,
     },
     {
-        name: "sqlProficiency",
-        label: "Current SQL Proficiency Level",
+        name: "currentProficiency",
+        label: "Current Proficiency Level",
         type: "select",
         options: ["Beginner", "Intermediate", "Advanced"],
-        required: true,
-    },
-    {
-        name: "dbSystem",
-        label: "Preferred SQL Database",
-        type: "select",
-        options: ["MySQL", "PostgreSQL", "Oracle", "SQL Server"],
         required: true,
     },
     {
         name: "focusArea",
         label: "What area do you want to focus on?",
-        type: "select",
-        options: ["Query Optimization", "Data Modeling", "ETL", "Reporting"],
+        type: "text",
+        placeholder: "e.g., Problem Solving, System Design, Core Concepts, Projects",
         required: true,
     },
     {
         name: "skillLevel",
-        label: "Target SQL Skill Level",
+        label: "Target Skill Level",
         type: "select",
-        options: ["Beginner", "Intermediate", "Advanced"],
+        options: ["Beginner", "Intermediate", "Advanced", "Expert"],
         required: true,
     },
     {
         name: "topics",
         label: "Specific Topics You Want to Learn (comma separated)",
         type: "text",
-        placeholder: "e.g., Joins, Subqueries, Indexing",
-        required: true,
+        placeholder: "e.g., Trees, Graphs, OS Scheduling, React Hooks",
+        required: false,
     },
     {
-        name: "queryComplexity",
-        label: "What query complexity are you targeting?",
+        name: "complexity",
+        label: "What complexity level are you targeting?",
         type: "select",
-        options: ["Simple Queries", "Complex Queries", "Performance-heavy Queries"],
+        options: ["Basic", "Intermediate", "Advanced", "Expert"],
         required: true,
     },
     {
         name: "industry",
         label: "Target Industry",
         type: "text",
-        placeholder: "e.g., Healthcare, Finance",
-        required: true,
-    },
+        placeholder: "e.g., Healthcare, Finance, Tech, Consulting",
+        required: false,
+    }
 ];
+
 
 const questionVariants = {
     enter: (direction) => ({

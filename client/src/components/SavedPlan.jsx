@@ -50,6 +50,9 @@ function SavedPlan(props) {
                             <div className="flex flex-col gap-1">
                                 <Typography color="white" variant="h6" sx={{ fontWeight: 700 }}>
                                     Plan {planIndex + 1}
+                                    <Typography color="white" variant="body2">
+                                        <strong>Subject:</strong> {plan.subject}
+                                    </Typography>
                                 </Typography>
                                 <Typography color="white" variant="body2">
                                     <strong>Experience:</strong> {plan.experience}

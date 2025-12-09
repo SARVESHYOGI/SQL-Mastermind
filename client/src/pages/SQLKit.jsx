@@ -79,7 +79,7 @@ const SQLKit = () => {
 
     return (
         <div className="flex flex-wrap flex-col justify-center m-auto items-center text-white">
-            <h1 className="text-2xl font-bold mb-4">Your New SQL Learning Plan for</h1>
+            <h1 className="text-2xl font-bold mb-4">Your New Learning Plan for</h1>
 
             {/* Render the submitted information */}
 
