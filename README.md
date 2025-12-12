@@ -1,26 +1,69 @@
-# SQL Mastermind🚀
+# 🚀 AI-Learning-Planner (Multi-Subject)
 
-An AI-powered platform built with **MERN stack** + **Gemini API** to help users prepare for SQL interviews at big tech companies. The platform asks targeted questions and generates a structured SQL preparation plan based on user responses.
+An AI-powered personalized learning planner built with the **MERN stack** + **Gemini API**, designed to generate fully customized study plans for **any subject** — including DSA, SQL, Operating Systems, JavaScript, Cloud, System Design, Aptitude, Math, and more.
 
-## Features ✨
-- **AI-Generated SQL Study Plan**: Uses Gemini API to create a personalized preparation strategy.
-- **MERN Stack**: Built with **MongoDB, Express.js, React.js, and Node.js**.
-- **JWT Authentication**: Ensures secure user authentication.
-- **Interactive Questions**: Asks relevant SQL-related questions to tailor the study plan.
+Instead of generic preparation roadmaps, the platform creates **tailored learning plans of any duration** based on user-selected timelines, skill levels, goals, and preferred topics.
 
-## Tech Stack 🛠️
-- **Frontend**: React.js, Tailwind CSS
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB
-- **Authentication**: JWT (JSON Web Token)
-- **AI Integration**: Gemini API
+---
+## ✨ Features
+
+### 🎯 AI-Generated Multi-Subject Learning Plans  
+Creates personalized learning plans of **any duration** (2 weeks, 4 weeks, 8 weeks, or user-defined) based on user experience, goals, and preferred pace.
+
+### 🧠 Dynamic Questionnaire Engine  
+Questions adapt automatically based on the chosen subject (e.g., DSA, OS, SQL, JavaScript).
+
+### 📘 Structured & Actionable Roadmaps  
+Each generated plan includes:  
+- Topics to learn  
+- Daily/weekly goals  
+- Exercises or tasks  
+- Recommended resources  
+- Difficulty level  
+- Estimated time commitment  
+
+### 🔐 Secure Authentication (JWT)  
+Protects user data and allows saving multiple learning plans securely.
+
+### 🎛️ Customizable Plans  
+Users can modify AI-generated plans and store multiple personalized study paths.
+
+### 📊 Plan Tracking (Upcoming)  
+Track weekly completion and progress milestones.
+
+### 🤖 Gemini API Integration  
+Uses LLMs to generate structured JSON learning plans with consistent formatting.
+
+---
+
+## 🛠️ Tech Stack
+
+### **Frontend**
+- React.js  
+- Tailwind CSS  
+
+### **Backend**
+- Node.js  
+- Express.js  
+
+### **Database**
+- MongoDB  
+- Mongoose  
+
+### **Authentication**
+- JWT  
+
+### **AI Integration**
+- Gemini API (Google Generative AI)
+
+---
 
 ## Installation & Setup ⚙️
 
 ### 1. Clone the Repository
 ```sh
-git clone https://github.com/SARVESHYOGI/AI-Powered_SQL_Prep.git
-cd AI-Powered_SQL_Prep
+git clone https://github.com/SARVESHYOGI/AI-Learning-Planner.git
+cd AI-Learning-Planner
 ```
 
 ### 2. Install Dependencies
@@ -58,9 +101,12 @@ npm start
 
 ## Usage 🚀
 1. **Sign up/Login** using JWT authentication.
-2. Answer SQL-related questions.
-3. Get an **AI-generated SQL preparation plan**.
-4. Follow the plan to prepare for **big tech interviews**!
+2. Choose a subject (DSA, OS, SQL, React, Math, etc.)
+3. Select plan duration (2 weeks, 4 weeks, 8 weeks, custom)
+4. Answer dynamic questions about experience, goals, and focus area
+5. Receive a fully personalized AI-generated learning plan
+6. Save and customize the plan in your dashboard
+7. Track your progress (upcoming)
 
 ## Preview 🖼️
 Home Page
@@ -86,9 +132,9 @@ Sidebar
 
 
 ## Future Enhancements 🚀
-- 📌 **Progress Tracking** for users.
-- 📌 **More AI-Generated Insights** for SQL concepts.
-- 📌 **Mock Interview Mode** with AI feedback.
+- 📌 Notifications & reminders
+- 📌 Mobile app version
+- 📌 Export plan as PDF
 
 ## Contributing 🤝
 Feel free to fork the repository and submit pull requests. Contributions are welcome!
