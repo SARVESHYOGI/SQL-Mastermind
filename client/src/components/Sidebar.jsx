@@ -17,6 +17,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import HomeIcon from '@mui/icons-material/Home';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import ProfileIcon from '@mui/icons-material/Person2';
 
 export default function Sidebar() {
     const [open, setOpen] = React.useState(false);
@@ -35,6 +36,7 @@ export default function Sidebar() {
 
     const listItems = [
         { text: 'Home', icon: <HomeIcon />, href: "/" },
+        isLoggedIn && { text: 'profile', icon: <ProfileIcon />, href: "/profile" },
         !isLoggedIn && { text: 'login', icon: <LoginIcon />, href: "/auth/login" },
         !isLoggedIn && { text: 'register', icon: <AppRegistrationIcon />, href: "/auth/register" },
         isLoggedIn && { text: 'dashboard', icon: <DashboardIcon />, href: "/dashboard" },

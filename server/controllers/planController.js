@@ -1,169 +1,127 @@
 const { GoogleGenAI } = require("@google/genai");
 const Plan = require("../models/Plan");
 
+const generateQuestion = async (req, res) => {
+  try {
+    const { topic } = req.body;
+    const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
+    const prompt = `
+The user wants to learn **${topic}**.  
+Your task is to generate a **dynamic and adaptive questionnaire** that will help create a personalized learning plan for this subject.
+
+### Follow These Rules:
+
+1. Generate questions as a **formFields array** in valid JSON format.
+2. Questions must adapt to the subject.  
+   - Example: If subject = "DSA", include fields like preferred languages, problem-solving level.  
+   - If subject = "Operating Systems", include fields like OS familiarity, core concepts, etc.
+3. Always include the essential baseline questions:
+   - experience
+   - role
+   - jobTitle
+   - companies
+   - currentProficiency
+   - focusArea
+   - skillLevel
+   - topics
+   - complexity
+   - industry
+4. You may **add, remove, or modify** fields to match the subject intelligently.
+5. Each field must follow this structure:
+6. if question is "what is your experience?" then name field should be "userexperience" , if question is "What is your main goal for learning OS?" then name field should be "userlearningGoal".
+7. options field should not be objects.
+
+{
+  "name": "...",
+  "label": "...",
+  "type": "text" | "number" | "select",
+  "placeholder": "...",
+  "options": [...],        // only for select
+  "required": true | false
+}
+
+### Output Format:
+Return ONLY the JSON array:
+[
+  { ...field1 },
+  { ...field2 },
+  ...
+]
+
+### Example (for reference only):
+A formFields array with fields like subject, experience, role, jobTitle, companies, currentProficiency, focusArea, skillLevel, topics, complexity, industry.
+
+### Important:
+- Do NOT explain anything.
+- Do NOT include extra text.
+- Only return the final JSON array.
+
+Now generate the **dynamic questionnaire** for the subject: "${topic}".
+`;
+
+    const result = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: prompt }]
+        }
+      ]
+    });
+    console.log(result.text);
+    if (!result || !result.text) {
+      throw new Error("No valid response from Google API.");
+    }
+    const generatedText = await result.text;
+    const cleanedText = generatedText.replace(/```json\n|\n```/g, '');
+    const jsonData = JSON.parse(cleanedText);
+
+    console.log("Json Data :=> ", jsonData);
+    res.json(jsonData);
+  } catch (error) {
+    console.log("error in generateQuesrion", error);
+  }
+}
+
+
 const generatePlan = async (req, res) => {
-  const { subject, experience, role, jobTitle, companies, currentProficiency, focusArea, skillLevel, topics, complexity, industry } = req.body;
+  let { userQuestionAnswerResponse } = req.body;
+  if (!userQuestionAnswerResponse) {
+    return res.status(400).json({ error: "User question and answer response is required" });
+  }
 
   const prompt = `
-    Generate a personalized preparation plan for a user with the following details:
-    - Subject: ${subject}
-      - Experience: ${experience} years
-      - Role: ${role}
-      - Target Job Title: ${jobTitle}
-      - Target Companies: ${companies}
-      - Current Proficiency in ${subject}: ${currentProficiency}
-      - Focus Area: ${focusArea}
-      - Target Skill Level: ${skillLevel}
-      - Key Topics to Focus On: ${topics}
-      - Expected Question/Task Complexity: ${complexity}
-      - Target Industry: ${industry}
-    
-    Please structure the response in JSON format with the following sections (for example if subject is sql then..):
-    
-    1. **Submitted Information**: Include the user's details as provided.
-    2. **Preparation Plan**: Provide two detailed SQL preparation plans:
-       - **4-week Plan**: Outline the SQL topics, exercises, and steps for a 4-week preparation cycle.
-       - **8-week Plan**: Outline the SQL topics, exercises, and steps for an 8-week preparation cycle.
-    
-    For each plan, include the following details:
-    
-    - **Week-by-Week Breakdown**:
-      - What SQL topics will be covered in each week.
-      - Specific exercises or types of questions (e.g., problem-solving, database design, etc.).
-      - Difficulty level of the tasks (beginner, intermediate, advanced).
-      - Suggestions for additional resources (e.g., online tutorials, books, or platforms like LeetCode, HackerRank, etc.).
-      - Time commitment estimate for each week (e.g., hours per day or week).
-    
-    - **Plan Format**:
-      - Provide the detailed breakdown in this structure for both 4-week and 8-week plans:
-         Example JSON structure for the response
-        {
-          "submittedInformation"- {
-            "experience": "5 years",
-            "role": "Data Engineer",
-            "targetJobTitle": "Data Analyst",
-            "targetCompanies": ["Company A", "Company B"],
-            "currentSQLProficiency": "Intermediate",
-            "preferredSQLDatabase": "MySQL",
-            "focusArea": "Problem Solving",
-            "targetSQLSkillLevel": "Advanced",
-            "focusTopics": ["Joins", "Subqueries", "Indexing"],
-            "sqlQueryComplexity": "Advanced",
-            "industry": "Technology"
-          },
-          "4WeekPlan"- {
-            "week1": {
-              "topicsCovered": ["SQL Basics", "Basic SELECT Queries"],
-              "exercises": ["Basic SELECT queries with WHERE clauses", "Simple aggregate functions"],
-              "difficultyLevel": "Beginner",
-              "timeCommitment": "2 hours/day",
-              "resources": ["SQLZoo tutorial", "W3Schools SQL"]
-            },
-            "week2": {
-              "topicsCovered": ["Joins", "Subqueries"],
-              "exercises": ["INNER JOIN, LEFT JOIN exercises", "Writing subqueries for filtering data"],
-              "difficultyLevel": "Intermediate",
-              "timeCommitment": "2-3 hours/day",
-              "resources": ["LeetCode SQL questions", "HackerRank SQL problems"]
-            },
-            "week3": {
-              "topicsCovered": ["Indexes", "Query Optimization"],
-              "exercises": ["Implementing indexes", "Analyzing query execution plans"],
-              "difficultyLevel": "Intermediate",
-              "timeCommitment": "2 hours/day",
-              "resources": ["Mode Analytics SQL Guide", "SQL Performance Tuning Blog"]
-            },
-            "week4": {
-              "topicsCovered": ["Advanced SQL Topics", "Complex Queries"],
-              "exercises": ["Writing complex queries using multiple joins", "Optimizing queries with CTEs"],
-              "difficultyLevel": "Advanced",
-              "timeCommitment": "3 hours/day",
-              "resources": ["SQL Advanced Tutorial", "EdX SQL Courses"]
-            }
-          },
-          "8WeekPlan"- {
-            "week1": {
-              "topicsCovered": ["SQL Basics", "Basic SELECT Queries"],
-              "exercises": ["Basic SELECT queries with WHERE clauses", "Simple aggregate functions"],
-              "difficultyLevel": "Beginner",
-              "timeCommitment": "2 hours/day",
-              "resources": ["SQLZoo tutorial", "W3Schools SQL"]
-            },
-            "week2": {
-              "topicsCovered": ["Joins", "Subqueries"],
-              "exercises": ["INNER JOIN, LEFT JOIN exercises", "Writing subqueries for filtering data"],
-              "difficultyLevel": "Intermediate",
-              "timeCommitment": "2-3 hours/day",
-              "resources": ["LeetCode SQL questions", "HackerRank SQL problems"]
-            },
-            "week3": {
-              "topicsCovered": ["Indexes", "Query Optimization"],
-              "exercises": ["Implementing indexes", "Analyzing query execution plans"],
-              "difficultyLevel": "Intermediate",
-              "timeCommitment": "2 hours/day",
-              "resources": ["Mode Analytics SQL Guide", "SQL Performance Tuning Blog"]
-            },
-            "week4": {
-              "topicsCovered": ["Stored Procedures", "Triggers"],
-              "exercises": ["Writing stored procedures", "Creating triggers for automatic actions"],
-              "difficultyLevel": "Intermediate",
-              "timeCommitment": "3 hours/day",
-              "resources": ["LeetCode SQL questions", "SQL Server Documentation"]
-            },
-            "week5": {
-              "topicsCovered": ["Window Functions", "CTEs"],
-              "exercises": ["Writing queries using window functions", "CTE exercises for organizing complex queries"],
-              "difficultyLevel": "Intermediate",
-              "timeCommitment": "3 hours/day",
-              "resources": ["SQL Advanced Tutorial", "Mode Analytics Blog"]
-            },
-            "week6": {
-              "topicsCovered": ["Advanced SQL Topics", "Recursive Queries"],
-              "exercises": ["Writing recursive queries", "Working with hierarchical data"],
-              "difficultyLevel": "Advanced",
-              "timeCommitment": "3 hours/day",
-              "resources": ["SQL Server Advanced Topics", "SQL Recursive Query Articles"]
-            },
-            "week7": {
-              "topicsCovered": ["Complex Query Optimization", "Data Integrity"],
-              "exercises": ["Optimizing complex SQL queries", "Ensuring data consistency with constraints"],
-              "difficultyLevel": "Advanced",
-              "timeCommitment": "3 hours/day",
-              "resources": ["SQL Performance Tuning Blog", "LeetCode Advanced SQL"]
-            },
-            "week8": {
-              "topicsCovered": ["SQL for Data Engineering", "Data Pipeline Queries"],
-              "exercises": ["Designing queries for data pipelines", "Optimizing SQL queries for big data environments"],
-              "difficultyLevel": "Advanced",
-              "timeCommitment": "3 hours/day",
-              "resources": ["Data Engineering Blogs", "Big Data SQL Tutorials"]
-            }
-          }
-        }
-        
-        json ends
-    
-    Please make sure each week in both the 4-week and 8-week plans has:
-    - A clear description of the topics being covered.
-    - Exercises or challenges for the user.
-    - A difficulty level.
-    - Time commitment.
-    - Links to resources (optional).
+You are an expert personalized learning coach and curriculum designer.
+A user filled out this questionnaire (Q/A). Use that input to generate a personalized study plan.
 
-    Please structure the response strictly in valid JSON format. 
-Ensure proper JSON syntax, including correct key-value pairs and appropriate use of quotes.
-Do not include extra words like "json starts" or "json ends". 
+--- USER Q&A ---
+${userQuestionAnswerResponse}
 
-    
-    `;
+--- INSTRUCTIONS ---
+1. Produce a valid JSON object and ONLY return the JSON (no explanations, no markdown).
+2. JSON MUST have this exact structure:
+{
+  "submittedInformation": { /* copy of user's answers as key:value pairs */ },
+  "plan": {
+    "week1": { "topicsCovered": [...], "exercises": [...], "difficultyLevel":"", "timeCommitment":"", "resources":[...] },
+    "week2": { ... },
+    ...
+    "weekN": { ... }
+  }
+}
+3. Create exactly ${userQuestionAnswerResponse.userPlanDuration} weekly entries (week1 .. week${userQuestionAnswerResponse.userPlanDuration}). If the user indicated a pace (hours/day), use it to estimate timeCommitment per week.
+4. Tailor topics, exercises and resources to the subject and user's proficiency.
+5. For resources include at least 1 free tutorial/link or platform (e.g., "LeetCode", "GeeksforGeeks", "freeCodeCamp", "Official Docs"). Short URLs or resource names are fine.
+6. Use difficultyLevel values: "Beginner", "Intermediate", or "Advanced".
+7. timeCommitment should be human readable (e.g., "1-2 hours/day", "10 hours/week").
+8. Do NOT include any additional keys or any explanatory text outside the JSON.
 
+If any user answer is ambiguous or missing, assume the user wants a balanced intermediate plan.
+
+Return the JSON now.
+`
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
-    // const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-    // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
-    // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-    // const result = await model.generateContent(prompt);
     const result = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: [
@@ -258,5 +216,5 @@ const deleteplan = async (req, res) => {
 
 
 module.exports = {
-  generatePlan, savePlan, getPlan, deleteplan
+  generatePlan, savePlan, getPlan, deleteplan, generateQuestion
 };
