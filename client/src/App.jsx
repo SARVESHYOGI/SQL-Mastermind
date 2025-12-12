@@ -10,8 +10,8 @@ import NoPage from "./pages/NoPage";
 import DashBoard from "./pages/DashBoard";
 import Layout from "./pages/Layout";
 import { Toaster } from 'react-hot-toast';
-import Loading from "./components/Loading";
 import TrackPlan from "./pages/TrackPlan";
+import Profile from "./pages/Profile";
 
 
 // export const BACKENDURL = "http://localhost:5000";
@@ -26,6 +26,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route element={<Layout />} >
           <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/register" element={<Register />} />
           <Route path="/questionnaire" element={<Questionnaire />} />

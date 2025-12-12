@@ -15,10 +15,10 @@ const loginSchema = Joi.object({
 });
 
 const register = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, organization, role } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
-        const user = await User.create({ name, email, password: hashedPassword });
+        const user = await User.create({ name, email, password: hashedPassword, organization, role });
         res.status(201).json({ message: "User registered", user });
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -49,6 +49,22 @@ const login = async (req, res) => {
     }
 };
 
+
+const userInf = async (req, res) => {
+    try {
+        if (!req.userId) {
+            return res.status(400).json({ error: 'User not authenticated' });
+        }
+        console.log("request received for user info");
+        const user = await User.findById(req.userId).select('-password');
+        console.log(user);
+        res.status(200).json({ user });
+    } catch (error) {
+        console.log("error in userinfcontroller");
+        res.status(500).json({ error: error.message });
+    }
+}
+
 const logout = async (req, res) => {
     res.clearCookie('token')
     return res.json({
@@ -58,4 +74,4 @@ const logout = async (req, res) => {
     })
 }
 
-module.exports = { register, login, logout, registerSchema, loginSchema };
+module.exports = { register, login, logout, userInf, registerSchema, loginSchema };

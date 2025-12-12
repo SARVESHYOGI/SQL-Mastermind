@@ -9,6 +9,8 @@ const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [organization, setOrganization] = useState("");
+    const [role, setRole] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -17,7 +19,7 @@ const Register = () => {
             setLoading(true);
             await axios.post(
                 `${BACKENDURL}/auth/register`,
-                { name, email, password });
+                { name, email, password, organization, role });
             setLoading(false);
             toast.success("Registration successful");
             navigate("/auth/login");
@@ -56,6 +58,19 @@ const Register = () => {
                     placeholder="Password"
                     className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2 m-2  focus:ring-2 focus:ring-blue-500 outline-none" value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <input
+                    type="organization"
+                    placeholder="Organization"
+                    className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2 m-2  focus:ring-2 focus:ring-blue-500 outline-none" value={organization}
+                    onChange={(e) => setOrganization(e.target.value)}
+                />
+                <input
+                    type="role"
+                    placeholder="Role"
+                    className="w-full bg-transparent rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 text-white py-2 px-2 m-2  focus:ring-2 focus:ring-blue-500 outline-none" value={role}
+                    onChange={(e) => setRole(e.target.value)}
                 />
 
                 <button
