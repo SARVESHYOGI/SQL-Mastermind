@@ -113,6 +113,7 @@ const Questionnaire = () => {
             }
 
             const payload = {
+                topic,
                 userQuestionAnswerResponse: {
                     formFields,
                     formValues: data,

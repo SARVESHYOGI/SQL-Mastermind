@@ -1,10 +1,17 @@
 // src/features/planSlice.js
 import { createSlice } from '@reduxjs/toolkit';
+import data from "../data.json";
+
+const p = data
 
 // Define initial state
 const initialState = {
-    plan: {}
+    plan: p
 };
+
+
+
+
 
 // const initialState = {
 //     plan: {

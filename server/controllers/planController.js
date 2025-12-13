@@ -68,7 +68,7 @@ Now generate the **dynamic questionnaire** for the subject: "${topic}".
         }
       ]
     });
-    console.log(result.text);
+    // console.log(result.text);
     if (!result || !result.text) {
       throw new Error("No valid response from Google API.");
     }
@@ -76,7 +76,7 @@ Now generate the **dynamic questionnaire** for the subject: "${topic}".
     const cleanedText = generatedText.replace(/```json\n|\n```/g, '');
     const jsonData = JSON.parse(cleanedText);
 
-    console.log("Json Data :=> ", jsonData);
+    // console.log("Json Data :=> ", jsonData);
     res.json(jsonData);
   } catch (error) {
     console.log("error in generateQuesrion", error);
@@ -85,7 +85,8 @@ Now generate the **dynamic questionnaire** for the subject: "${topic}".
 
 
 const generatePlan = async (req, res) => {
-  let { userQuestionAnswerResponse } = req.body;
+  let { topic, userQuestionAnswerResponse } = req.body;
+  console.log("response", topic, userQuestionAnswerResponse);
   if (!userQuestionAnswerResponse) {
     return res.status(400).json({ error: "User question and answer response is required" });
   }
@@ -101,7 +102,7 @@ ${userQuestionAnswerResponse}
 1. Produce a valid JSON object and ONLY return the JSON (no explanations, no markdown).
 2. JSON MUST have this exact structure:
 {
-  "submittedInformation": { /* copy of user's answers as key:value pairs */ },
+  "submittedInformation": { /* here key:value pair should be subject: "${topic}" */ },
   "plan": {
     "week1": { "topicsCovered": [...], "exercises": [...], "difficultyLevel":"", "timeCommitment":"", "resources":[...] },
     "week2": { ... },
@@ -131,7 +132,7 @@ Return the JSON now.
         }
       ]
     });
-    console.log(result.text);
+    // console.log(result.text);
     if (!result || !result.text) {
       throw new Error("No valid response from Google API.");
     }
@@ -140,7 +141,7 @@ Return the JSON now.
     const cleanedText = generatedText.replace(/```json\n|\n```/g, '');
     const jsonData = JSON.parse(cleanedText);
 
-    console.log("Json Data :=> ", jsonData);
+    // console.log("Json Data :=> ", jsonData);
     res.json(jsonData);
   } catch (error) {
     console.error("Error generating plan:", error);

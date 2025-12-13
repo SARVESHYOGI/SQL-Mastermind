@@ -1,0 +1,239 @@
+{
+    "userQuestionAnswerResponse": {
+        "formFields": [
+            {
+                "name": "userexperience",
+                "label": "How many years of professional experience do you have?",
+                "type": "select",
+                "placeholder": "Select your experience level",
+                "options": [
+                    "< 1 year",
+                    "1-3 years",
+                    "3-5 years",
+                    "5-10 years",
+                    "10+ years"
+                ],
+                "required": true
+            },
+            {
+                "name": "userrole",
+                "label": "What is your current primary role?",
+                "type": "select",
+                "placeholder": "Select your role",
+                "options": [
+                    "Data Analyst",
+                    "Data Scientist",
+                    "Software Engineer (Backend)",
+                    "Database Administrator (DBA)",
+                    "Business Intelligence Developer",
+                    "DevOps Engineer",
+                    "Project Manager",
+                    "Student",
+                    "Other"
+                ],
+                "required": true
+            },
+            {
+                "name": "userjobTitle",
+                "label": "What is your current job title? (Optional)",
+                "type": "text",
+                "placeholder": "e.g., Senior Data Analyst",
+                "required": false
+            },
+            {
+                "name": "usercompanies",
+                "label": "Which companies have you worked for? (Optional)",
+                "type": "text",
+                "placeholder": "e.g., Google, Microsoft, MyStartup",
+                "required": false
+            },
+            {
+                "name": "usercurrentProficiency",
+                "label": "What is your current proficiency level with SQL?",
+                "type": "select",
+                "placeholder": "Select your current proficiency",
+                "options": [
+                    "Never used it",
+                    "Beginner (basic SELECT, FROM, WHERE)",
+                    "Intermediate (JOINs, GROUP BY, subqueries)",
+                    "Advanced (Window Functions, Stored Procedures, Optimization)",
+                    "Expert (Database Design, Performance Tuning, Complex Queries)"
+                ],
+                "required": true
+            },
+            {
+                "name": "userfocusArea",
+                "label": "What is your main goal or focus area for learning SQL?",
+                "type": "select",
+                "placeholder": "Select your primary goal",
+                "options": [
+                    "Data Analysis & Reporting",
+                    "Backend Development & API Integration",
+                    "Database Administration & Management",
+                    "Business Intelligence & ETL",
+                    "Learning for Interviews",
+                    "Personal Project / Hobby",
+                    "Other"
+                ],
+                "required": true
+            },
+            {
+                "name": "userskillLevel",
+                "label": "What level of SQL proficiency do you aim to achieve?",
+                "type": "select",
+                "placeholder": "Select your target skill level",
+                "options": [
+                    "Foundational Understanding",
+                    "Able to perform common tasks independently",
+                    "Competent for complex projects",
+                    "Advanced problem-solving and optimization",
+                    "Expert-level design and architecture"
+                ],
+                "required": true
+            },
+            {
+                "name": "usertopics",
+                "label": "Are there any specific SQL topics you are particularly interested in? (Optional, select all that apply)",
+                "type": "select",
+                "placeholder": "Select specific topics",
+                "options": [
+                    "Basic SELECT, FROM, WHERE",
+                    "JOINs (INNER, LEFT, RIGHT, FULL)",
+                    "GROUP BY & Aggregate Functions",
+                    "Subqueries & CTEs",
+                    "Window Functions",
+                    "Database Design & Normalization",
+                    "Indexing & Performance Optimization",
+                    "Stored Procedures & Functions",
+                    "Triggers & Views",
+                    "Transactions & Concurrency Control",
+                    "NoSQL vs. SQL concepts",
+                    "Data Modeling",
+                    "ETL processes with SQL"
+                ],
+                "required": false
+            },
+            {
+                "name": "usercomplexity",
+                "label": "What level of project complexity are you looking to handle with your new SQL skills?",
+                "type": "select",
+                "placeholder": "Select desired project complexity",
+                "options": [
+                    "Simple queries for personal data",
+                    "Medium-sized reports and dashboards",
+                    "Complex data analysis and ETL pipelines",
+                    "Designing and optimizing databases for large-scale applications",
+                    "Performance tuning for mission-critical systems"
+                ],
+                "required": true
+            },
+            {
+                "name": "userindustry",
+                "label": "In which industry do you currently work or plan to work? (Optional)",
+                "type": "text",
+                "placeholder": "e.g., Finance, Healthcare, E-commerce, Tech",
+                "required": false
+            },
+            {
+                "name": "userdatabaseTypeFamiliarity",
+                "label": "Which relational database systems are you familiar with or interested in learning? (Select all that apply)",
+                "type": "select",
+                "placeholder": "Select database types",
+                "options": [
+                    "PostgreSQL",
+                    "MySQL",
+                    "SQL Server",
+                    "Oracle",
+                    "SQLite",
+                    "MariaDB",
+                    "Google BigQuery",
+                    "Amazon Redshift",
+                    "Snowflake",
+                    "None (completely new to databases)"
+                ],
+                "required": true
+            },
+            {
+                "name": "userdataVolumePreference",
+                "label": "What kind of data volumes do you typically work with or expect to work with?",
+                "type": "select",
+                "placeholder": "Select data volume preference",
+                "options": [
+                    "Small (KBs - MBs)",
+                    "Medium (GBs - TBs)",
+                    "Large (TB+)",
+                    "Not sure / Varies greatly"
+                ],
+                "required": false
+            },
+            {
+                "name": "userprogrammingLanguageFamiliarity",
+                "label": "Do you have experience with any programming languages that interact with databases? (Optional, select all that apply)",
+                "type": "select",
+                "placeholder": "Select programming languages",
+                "options": [
+                    "Python",
+                    "Java",
+                    "C#",
+                    "Node.js",
+                    "PHP",
+                    "Ruby",
+                    "None"
+                ],
+                "required": false
+            },
+            {
+                "name": "userormFamiliarity",
+                "label": "Are you familiar with Object-Relational Mappers (ORMs) or database client tools? (Optional)",
+                "type": "select",
+                "placeholder": "Select ORM/tool familiarity",
+                "options": [
+                    "Yes, I use ORMs (e.g., SQLAlchemy, Hibernate)",
+                    "Yes, I use specific client tools (e.g., DBeaver, pgAdmin)",
+                    "No, but interested",
+                    "Not relevant to my goals"
+                ],
+                "required": false
+            },
+            {
+                "name": "userlearningPreference",
+                "label": "How do you prefer to learn SQL?",
+                "type": "select",
+                "placeholder": "Select your learning preference",
+                "options": [
+                    "Hands-on coding exercises",
+                    "Theoretical explanations and lectures",
+                    "Project-based learning",
+                    "Reading documentation and articles",
+                    "Video tutorials"
+                ],
+                "required": true
+            },
+            {
+                "name": "userPlanDuration",
+                "label": "How long do you want your learning plan to be? (e.g., 4 weeks, 2 months)",
+                "type": "text",
+                "placeholder": "Enter duration in weeks",
+                "required": true
+            }
+        ],
+        "formValues": {
+            "userexperience": "< 1 year",
+            "userrole": "Data Analyst",
+            "userjobTitle": "",
+            "usercompanies": "",
+            "usercurrentProficiency": "Never used it",
+            "userfocusArea": "Data Analysis & Reporting",
+            "userskillLevel": "Foundational Understanding",
+            "usertopics": "ETL processes with SQL",
+            "usercomplexity": "Simple queries for personal data",
+            "userindustry": "",
+            "userdatabaseTypeFamiliarity": "PostgreSQL",
+            "userdataVolumePreference": "Medium (GBs - TBs)",
+            "userprogrammingLanguageFamiliarity": "Java",
+            "userormFamiliarity": "Yes, I use ORMs (e.g., SQLAlchemy, Hibernate)",
+            "userlearningPreference": "Hands-on coding exercises",
+            "userPlanDuration": "8"
+        }
+    }
+}

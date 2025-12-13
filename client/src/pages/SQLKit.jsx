@@ -7,8 +7,11 @@ import toast from "react-hot-toast";
 import { BACKENDURL } from "../App";
 import { Link } from "react-router-dom";
 
+
 const SQLKit = () => {
     const plan = useSelector((state) => state.plan.plan);
+    console.log("Plan from Redux store:", typeof plan);
+    console.log("Plan from Redux store:", plan.plan);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -96,12 +99,11 @@ const SQLKit = () => {
             {/* Render the 4-Week and 8-Week Plans */}
             <div className="flex flex-wrap justify-center m-auto items-center text-white">
                 <div className="p-4">
-                    <Card plans={plan} id={"4WeekPlan"} />
+                    <Card />
+
                 </div>
 
-                <div className="p-4">
-                    <Card plans={plan} id={"8WeekPlan"} />
-                </div>
+
             </div>
 
             {/* Success/Error Messages */}
@@ -116,7 +118,7 @@ const SQLKit = () => {
             >
                 {loading ? "Saving..." : "Add Plan to DB"}
             </button>
-        </div>
+        </div >
     );
 };
 

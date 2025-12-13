@@ -1,0 +1,103 @@
+{
+    "submittedInformation": {
+        "subject": "sql"
+    },
+    "plan": {
+        "week1": {
+            "topicsCovered": [
+                "Introduction to Databases and SQL",
+                "Basic SELECT Statement",
+                "FROM Clause",
+                "WHERE Clause (filtering data)",
+                "ORDER BY (sorting data)",
+                "LIMIT/OFFSET (pagination)",
+                "DISTINCT Keyword",
+                "Basic Aggregate Functions (COUNT, SUM, AVG, MIN, MAX)"
+            ],
+            "exercises": [
+                "Retrieve all data from a table.",
+                "Select specific columns and filter rows based on conditions.",
+                "Sort results by one or more columns.",
+                "Find unique values in a column.",
+                "Calculate total, average, min, max for numeric columns."
+            ],
+            "difficultyLevel": "Intermediate",
+            "timeCommitment": "5-7 hours/week",
+            "resources": [
+                "freeCodeCamp: Relational Database Course (SQL)",
+                "W3Schools SQL Tutorial: Basic Queries",
+                "SQLBolt: Lessons 1-6"
+            ]
+        },
+        "week2": {
+            "topicsCovered": [
+                "Understanding Table Relationships (Primary/Foreign Keys)",
+                "INNER JOIN",
+                "LEFT JOIN (LEFT OUTER JOIN)",
+                "RIGHT JOIN (RIGHT OUTER JOIN)",
+                "FULL OUTER JOIN",
+                "SELF JOIN",
+                "UNION and UNION ALL operators"
+            ],
+            "exercises": [
+                "Combine data from two or more tables using different join types.",
+                "Find records that exist in one table but not in another.",
+                "Join a table with itself to solve hierarchical problems.",
+                "Combine results of multiple SELECT statements."
+            ],
+            "difficultyLevel": "Intermediate",
+            "timeCommitment": "5-7 hours/week",
+            "resources": [
+                "Mode Analytics SQL Tutorial: Joins",
+                "GeeksforGeeks: SQL Joins",
+                "SQLZoo: Join Tutorial"
+            ]
+        },
+        "week3": {
+            "topicsCovered": [
+                "Subqueries (Scalar, Multi-row, Correlated)",
+                "Subqueries in SELECT, FROM, WHERE, HAVING clauses",
+                "Common Table Expressions (CTEs) with WITH clause",
+                "INSERT, UPDATE, DELETE statements (DML)",
+                "CREATE VIEW statement"
+            ],
+            "exercises": [
+                "Use subqueries to filter data based on dynamic conditions.",
+                "Rewrite complex queries using CTEs for readability.",
+                "Add new records, modify existing data, and remove records.",
+                "Create views to simplify complex queries and control access."
+            ],
+            "difficultyLevel": "Intermediate",
+            "timeCommitment": "5-7 hours/week",
+            "resources": [
+                "PostgreSQL Official Documentation: Subqueries & CTEs",
+                "HackerRank: SQL (Intermediate challenges)",
+                "SQL Fiddle: Experiment with DML"
+            ]
+        },
+        "week4": {
+            "topicsCovered": [
+                "Window Functions (ROW_NUMBER, RANK, DENSE_RANK, NTILE)",
+                "LAG, LEAD (Accessing previous/next rows)",
+                "Partition By clause with Window Functions",
+                "Introduction to Indexes (CREATE INDEX)",
+                "Basic Transaction Control (COMMIT, ROLLBACK)",
+                "Understanding EXPLAIN/ANALYZE for query optimization"
+            ],
+            "exercises": [
+                "Calculate running totals or moving averages.",
+                "Rank data within groups.",
+                "Compare current row values with previous/next row values.",
+                "Create simple indexes to improve query performance.",
+                "Simulate transactions and understand their impact."
+            ],
+            "difficultyLevel": "Intermediate",
+            "timeCommitment": "5-7 hours/week",
+            "resources": [
+                "SQL Bolt: Window Functions",
+                "Official Database Documentation (e.g., MySQL, PostgreSQL, SQL Server) on Indexes and Window Functions",
+                "Stack Overflow: SQL performance tips"
+            ]
+        }
+    }
+}
