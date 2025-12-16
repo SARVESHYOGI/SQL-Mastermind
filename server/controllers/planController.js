@@ -152,36 +152,57 @@ Return the JSON now.
 // Generate content using the provided prompt
 // Check if result is properly returned and extract text
 
-const savePlan = async (req, res) => {
-  const { plan } = req.body;
-  const { submittedInformation, '4WeekPlan': week4Plan, '8WeekPlan': week8Plan } = plan;
 
+function transformPlanToWeeks(planObject) {
+  return Object.entries(planObject).map(([weekKey, weekData], index) => ({
+    weekNumber: index + 1,
+    topicsCovered: weekData.topicsCovered || [],
+    exercises: weekData.exercises || [],
+    difficultyLevel: weekData.difficultyLevel || "Beginner",
+    timeCommitment: weekData.timeCommitment || "",
+    resources: weekData.resources || [],
+    isCompleted: false,
+  }));
+}
+
+const savePlan = async (req, res) => {
   try {
+    if (!req.userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const userId = req.userId;
+    const generatedPlan = req.body;
+
+    if (!generatedPlan.plan) {
+      return res.status(400).json({ error: "Invalid plan structure" });
+    }
+
+    const submittedInformation = generatedPlan.plan.submittedInformation;
+    const weekPlanObject = generatedPlan.plan.plan;
+
+    if (!submittedInformation || !weekPlanObject) {
+      return res.status(400).json({ error: "Missing submittedInformation or plan" });
+    }
+
+    const weeksArray = transformPlanToWeeks(weekPlanObject);
+
     const newPlan = new Plan({
-      subject: submittedInformation.subject,
-      userId: req.userId,
-      experience: submittedInformation.experience,
-      role: submittedInformation.role,
-      targetJobTitle: submittedInformation.targetJobTitle,
-      targetCompanies: submittedInformation.targetCompanies,
-      currentSQLProficiency: submittedInformation.currentSQLProficiency,
-      preferredSQLDatabase: submittedInformation.preferredSQLDatabase,
-      focusArea: submittedInformation.focusArea,
-      targetSQLSkillLevel: submittedInformation.targetSQLSkillLevel,
-      focusTopics: submittedInformation.focusTopics,
-      sqlQueryComplexity: submittedInformation.sqlQueryComplexity,
-      industry: submittedInformation.industry,
-      "4WeekPlan": week4Plan,
-      "8WeekPlan": week8Plan,
+      userId,
+      subject: submittedInformation.subject || "General",
+      planDuration: weeksArray.length,
+      weeks: weeksArray,
     });
 
-    await newPlan.save();
-    res.status(201).json({ message: 'Plan saved successfully', plan: newPlan });
+    const savedPlan = await newPlan.save();
+    res.status(201).json(savedPlan);
+
   } catch (error) {
-    console.error('Error saving plan:', error);
-    res.status(500).json({ error: 'Failed to save plan' });
+    console.error("Error saving plan:", error);
+    res.status(500).json({ error: "Failed to save plan" });
   }
 };
+
 
 const getPlan = async (req, res) => {
   console.log('Fetching plan for user:', req.userId);

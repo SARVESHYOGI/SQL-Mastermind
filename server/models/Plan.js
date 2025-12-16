@@ -1,51 +1,55 @@
 const mongoose = require("mongoose");
 
-const weekSchema = new mongoose.Schema({
-    topicsCovered: [String],
-    exercises: [String],
-    difficultyLevel: String,
-    timeCommitment: String,
-    resources: [String],
-    isCompleted: {
-        type: Boolean,
-        default: false
+const weekSchema = new mongoose.Schema(
+    {
+        weekNumber: {
+            type: Number,
+            required: true,
+        },
+        topicsCovered: [String],
+        exercises: [String],
+        difficultyLevel: {
+            type: String,
+        },
+        timeCommitment: String,
+        resources: [String],
+        isCompleted: {
+            type: Boolean,
+            default: false,
+        },
     },
-}, { _id: false });
+    { _id: false }
+);
 
-const planSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+
+const planSchema = new mongoose.Schema(
+    {
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
+
+        subject: {
+            type: String,
+            required: true,
+        },
+        planDuration: {
+            type: Number,
+            required: true,
+        },
+        weeks: {
+            type: [weekSchema],
+            required: true,
+        },
+
+        status: {
+            type: String,
+            enum: ["incomplete", "completed"],
+            default: "incomplete",
+        },
     },
-    subject: String,
-    experience: String,
-    role: String,
-    targetJobTitle: String,
-    targetCompanies: [String],
-    currentSQLProficiency: String,
-    preferredSQLDatabase: [String],
-    focusArea: String,
-    targetSQLSkillLevel: String,
-    focusTopics: [String],
-    sqlQueryComplexity: String,
-    industry: String,
-    "4WeekPlan": {
-        week1: weekSchema,
-        week2: weekSchema,
-        week3: weekSchema,
-        week4: weekSchema
-    },
-    "8WeekPlan": {
-        week1: weekSchema,
-        week2: weekSchema,
-        week3: weekSchema,
-        week4: weekSchema,
-        week5: weekSchema,
-        week6: weekSchema,
-        week7: weekSchema,
-        week8: weekSchema
-    }
-});
+    { timestamps: true }
+);
 
 module.exports = mongoose.model("Plan", planSchema);

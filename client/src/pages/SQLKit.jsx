@@ -37,8 +37,12 @@ const SQLKit = () => {
             setLoading(false);
             return;
         }
+        const paylod = {
+            subject: plan.subject,
+            plan: plan
+        }
 
-        axios.post(`${BACKENDURL}/plan/saveplan`, { plan }, {
+        axios.post(`${BACKENDURL}/plan/saveplan`, paylod, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }

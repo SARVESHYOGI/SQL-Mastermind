@@ -57,38 +57,40 @@ const gettrackplan = async (req, res) => {
 
 const updateCompletion = async (req, res) => {
     try {
-        const { planId, planType, week, isCompleted } = req.body;
+        const { planId, weekNumber, isCompleted } = req.body;
 
-        if (!planId || !planType || !week || typeof isCompleted !== 'boolean') {
-            return res.status(400).json({ message: 'Missing required fields' });
+        if (!planId || !weekNumber || typeof isCompleted !== 'boolean') {
+            return res.status(400).json({ message: 'planId, weekNumber, and isCompleted are required' });
         }
 
-        const result = await Plan.findOneAndUpdate(
-            { _id: planId },
+        const updatedPlan = await Plan.findOneAndUpdate(
+            { _id: planId, "weeks.weekNumber": weekNumber },
             {
                 $set: {
-                    [`${planType}.${week}.isCompleted`]: isCompleted
+                    "weeks.$.isCompleted": isCompleted
                 }
             },
             { new: true }
         );
 
-        if (!result) {
-            return res.status(404).json({ message: 'Plan not found' });
+        if (!updatedPlan) {
+            return res.status(404).json({ message: "Plan or week not found" });
         }
 
         res.status(200).json({
-            message: 'Completion status updated successfully',
-            updatedPlan: result
+            message: "Week completion updated successfully",
+            updatedPlan
         });
+
     } catch (error) {
-        console.error('Error updating completion status:', error);
+        console.error("Error updating completion:", error);
         res.status(500).json({
-            message: 'Error updating completion status',
+            message: "Internal server error",
             error: error.message
         });
     }
 };
+
 
 const getPlan = async (planId) => {
     console.log('Fetching plan for ID:', planId);
