@@ -6,6 +6,7 @@ import Loading from "../components/Loading";
 import toast from "react-hot-toast";
 import { BACKENDURL } from "../App";
 import { Link } from "react-router-dom";
+import PlanPage from "./PlanPage";
 
 
 const SQLKit = () => {
@@ -96,16 +97,7 @@ const SQLKit = () => {
                 </div>
             </div>
 
-            {/* Render the 4-Week and 8-Week Plans */}
-            <div className="flex flex-wrap justify-center m-auto items-center text-white">
-                <div className="p-4">
-                    <Card />
-
-                </div>
-
-
-            </div>
-
+            <PlanPage />
             {/* Success/Error Messages */}
             {success && <div className="text-green-500">Plan saved successfully!</div>}
             {error && <div className="text-red-500">{error}</div>}

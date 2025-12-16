@@ -187,7 +187,7 @@ const getPlan = async (req, res) => {
   console.log('Fetching plan for user:', req.userId);
   try {
     const plan = await Plan.find({ userId: req.userId });
-    console.log('Plan data:', plan);
+    // console.log('Plan data:', plan);
     res.status(200).json(plan);
   } catch (error) {
     console.error('Error getting plan:', error);

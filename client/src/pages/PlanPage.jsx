@@ -1,31 +1,26 @@
-// generateted paln plan vala
-
-import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 function PlanPage() {
-    const { id } = useParams();
     const plan = useSelector((state) => state.plan.plan);
+    console.log("plan from planpage", plan);
 
     // Ensure the plan exists
-    if (!plan || !plan[id]) {
+    if (!plan.submittedInformation || !plan.plan) {
         return <div className="text-red-500">Plan not found.</div>;
     }
 
-    // Get the selected plan (either '4WeekPlan' or '8WeekPlan')
-    const selectedPlan = plan[id];
+    const selectedPlan = plan.plan;
 
     return (
         <div className="p-6" style={{ backgroundColor: 'transparent', color: 'white' }}>
-            <h2 className="text-2xl font-bold m-4">Your {id}:</h2>
+            <h2 className="text-2xl font-bold m-4">Your plan:</h2>
             <div>
                 {Object.keys(selectedPlan).map((week) => (
                     <div key={week} className="mb-6">
@@ -33,13 +28,13 @@ function PlanPage() {
                             <Accordion
                                 slotProps={{ heading: { component: 'h4' } }}
                                 sx={{
-                                    backgroundColor: 'rgba(1, 1, 1, 0.1)', // Tailwind yellow-700 with opacity
+                                    backgroundColor: 'rgba(1, 1, 1, 0.1)',
                                     backdropFilter: 'blur(10px)',
                                     border: '1px solid rgba(255, 255, 255, 0.2)',
-                                    borderRadius: '0.375rem', // Tailwind rounded-md equivalent
+                                    borderRadius: '0.375rem',
                                     marginBottom: '1rem',
                                     '&:before': {
-                                        display: 'none', // Removes the default line before the accordion
+                                        display: 'none',
                                     },
                                     color: 'white',
 

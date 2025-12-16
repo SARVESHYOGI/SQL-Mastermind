@@ -55,9 +55,9 @@ const userInf = async (req, res) => {
         if (!req.userId) {
             return res.status(400).json({ error: 'User not authenticated' });
         }
-        console.log("request received for user info");
+        // console.log("request received for user info");
         const user = await User.findById(req.userId).select('-password');
-        console.log(user);
+        // console.log(user);
         res.status(200).json({ user });
     } catch (error) {
         console.log("error in userinfcontroller");
